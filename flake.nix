@@ -33,7 +33,7 @@
           # Test 1: Basic Jazz sync server connectivity
           jazzSyncServerTest = pkgs.testers.runNixOSTest {
             name = "jazz-sync-server-test";
-            vmOptions = { enableKVM = false; };
+            
             
             nodes.jazzServer = { pkgs, ... }: {
               networking.firewall.allowedTCPPorts = [ 4200 ];
@@ -65,7 +65,7 @@
           # Test 2: Proxy server startup and account creation
           proxyServerTest = pkgs.testers.runNixOSTest {
             name = "proxy-server-test";
-            vmOptions = { enableKVM = false; };
+            
             
             nodes.proxyServer = { pkgs, ... }: {
               networking.firewall.allowedTCPPorts = [ 4200 ];
@@ -87,7 +87,7 @@
                 };
                 serviceConfig = {
                   WorkingDirectory = "/opt/proxy-server";
-                  ExecStartPre = "${pkgs.nodejs_20}/bin/pnpm install";
+                  ExecStartPre = "${pkgs.nodePackages.pnpm}/bin/pnpm install";
                   ExecStart = "${pkgs.nodejs_20}/bin/node e2e/proxy-server.js";
                   Restart = "always";
                 };
@@ -109,7 +109,7 @@
           # Test 3: Full client-server proxy data flow
           proxyDataFlowTest = pkgs.testers.runNixOSTest {
             name = "proxy-data-flow-test";
-            vmOptions = { enableKVM = false; };
+            
             
             nodes.server = { pkgs, ... }: {
               networking.firewall.allowedTCPPorts = [ 4200 ];
@@ -238,49 +238,61 @@
 
           # Test 4: Webhook compatibility test (legacy support)
           webhookCompatibilityTest = pkgs.testers.runNixOSTest {
-            name = "webhook-compatibility-test";
-            vmOptions = { enableKVM = false; };
-            
-            nodes.webhookServer = { pkgs, ... }: {
-              networking.firewall.allowedTCPPorts = [ 3000 ];
+  name = "webhook-compatibility-test";
+  
+  nodes.webhookServer = { pkgs, ... }: {
+    networking.firewall.allowedTCPPorts = [ 3000 ];
 
-              systemd.services.webhook-server = {
-                description = "Legacy Webhook Server";
-                wantedBy = [ "multi-user.target" ];
-                serviceConfig = {
-                  ExecStart = ''
-                    ${pkgs.nodejs_20}/bin/node -e "
-                      const express = require('express');
-                      const app = express();
-                      app.use(express.json());
-                      app.post('/proxy-update', (req, res) => {
-                        console.log('Received proxy update:', JSON.stringify(req.body));
-                        res.json({ status: 'success' });
-                      });
-                      app.listen(3000, () => console.log('Webhook server on :3000'));
-                    "
-                  '';
-                };
-              };
-            };
+    systemd.services.webhook-server = {
+      description = "Legacy Webhook Server";
+      wantedBy = [ "multi-user.target" ];
+      after = [ "network.target" ];
+      serviceConfig = {
+        ExecStart = ''
+          ${pkgs.nodejs_20}/bin/node -e "
+            const http = require('http');
             
-            nodes.client = { pkgs, ... }: {
-              environment.systemPackages = with pkgs; [ curl jq ];
-            };
+            const server = http.createServer((req, res) => {
+              if (req.method === 'POST' && req.url === '/proxy-update') {
+                let body = "";
+                req.on('data', chunk => body += chunk);
+                req.on('end', () => {
+                  console.log('Received proxy update:', body);
+                  res.writeHead(200, {'Content-Type': 'application/json'});
+                  res.end(JSON.stringify({ status: 'success' }));
+                });
+              } else {
+                res.writeHead(404);
+                res.end();
+              }
+            });
             
-            testScript = ''
-              webhookServer.wait_for_unit("webhook-server.service")
-              webhookServer.wait_for_open_port(3000)
+            server.listen(3000, () => console.log('Webhook server on :3000'));
+          "
+        '';
+        Type = "simple";
+        Restart = "on-failure";
+      };
+    };
+  };
+  
+  nodes.client = { pkgs, ... }: {
+    environment.systemPackages = with pkgs; [ curl jq ];
+  };
+  
+  testScript = ''
+    webhookServer.wait_for_unit("webhook-server.service")
+    webhookServer.wait_for_open_port(3000)
 
-              # Test webhook endpoint
-              client.succeed("""
-                curl -X POST http://webhookServer:3000/proxy-update \
-                  -H 'Content-Type: application/json' \
-                  -d '{"servers": {"test": {"host": "test.proxy", "port": 3128}}}' \
-                  | jq -e '.status == "success"'
-              """)
-            '';
-          };
+    # Test webhook endpoint
+    client.succeed("""
+      curl -X POST http://webhookServer:3000/proxy-update \
+        -H 'Content-Type: application/json' \
+        -d '{"servers": {"test": {"host": "test.proxy", "port": 3128}}}' \
+        | jq -e '.status == "success"'
+    """)
+  '';
+};
           
           # Test 5: Extension modification test
           extensionModificationTest = pkgs.writeShellScriptBin "test-extension-modification" ''
