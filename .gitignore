@@ -328,4 +328,4 @@ logs/jazz-proxy-error.log
 logs/jazz-proxy-out.log
 logs/jazz-proxy-combined.log
 logs/jazz-proxy-error.log
-logs/
+logs/*
