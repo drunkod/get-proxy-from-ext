@@ -28,20 +28,18 @@ async function startProxyServer() {
     AccountSchema: ProxyServerAccount,
   });
 
+  // Load the account more shallowly first to avoid errors on missing fields.
   const account = await worker.ensureLoaded({
     resolve: { 
       profile: true,
-      root: { 
-        configs: true,
-        stats: true,
-        connectedExtensions: true
-      } 
+      root: true
     }
   });
 
-  // Initialize root if needed
+  // **FIX:** Check for and initialize the root CoValue if it doesn't exist.
+  // This is crucial for new or corrupted accounts.
   if (!account.root) {
-    console.log("🔧 Initializing account root...");
+    console.log("🔧 Root not found. Initializing new account root...");
     account.root = ServerAccountRoot.create({
       configs: co.list(ProxyConfig).create([], { owner: worker }),
       v2rayConfigs: co.list(V2RayConfig).create([], { owner: worker }),
@@ -52,12 +50,44 @@ async function startProxyServer() {
       connectedExtensions: co.map(z.string()).create({}, { owner: worker }),
     }, { owner: worker });
     await account.waitForSync();
+    console.log("✅ New account root initialized.");
   }
 
-  // Ensure all fields exist
+  // Now that we know `account.root` exists, load its contents.
+  await account.root.ensureLoaded({
+      resolve: {
+          configs: true,
+          v2rayConfigs: true,
+          stats: true,
+          connectedExtensions: true,
+          latestConfig: true,
+      }
+  });
+
+  // **FIX:** Add fallback initializations for each field in the root,
+  // making the server robust against accounts with older schemas.
   if (!account.root.connectedExtensions) {
+    console.log("🔧 Initializing missing 'connectedExtensions' map...");
     account.root.connectedExtensions = co.map(z.string()).create({}, { owner: worker });
-    await account.root.connectedExtensions.waitForSync();
+    await account.root.waitForSync();
+  }
+  if (!account.root.configs) {
+    console.log("🔧 Initializing missing 'configs' list...");
+    account.root.configs = co.list(ProxyConfig).create([], { owner: worker });
+    await account.root.waitForSync();
+  }
+   if (!account.root.v2rayConfigs) {
+      console.log("🔧 Initializing missing 'v2rayConfigs' list...");
+      account.root.v2rayConfigs = co.list(V2RayConfig).create([], { owner: worker });
+      await account.root.waitForSync();
+  }
+  if (!account.root.stats) {
+    console.log("🔧 Initializing missing 'stats' object...");
+    account.root.stats = StatsSchema.create({
+        totalUpdates: 0,
+        totalProxiesEverSeen: 0,
+    }, { owner: worker });
+    await account.root.waitForSync();
   }
 
   // Make profile public
