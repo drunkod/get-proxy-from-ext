@@ -23,7 +23,7 @@
   "author": "",
   "license": "MIT",
   "dependencies": {
-    "jazz-tools": "^0.16.1",
+    "jazz-tools": "^0.16.3",
     "express": "^4.18.2",
     "cors": "^2.8.5",
     "adm-zip": "^0.5.10",
