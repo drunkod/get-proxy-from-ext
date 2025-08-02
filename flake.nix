@@ -102,53 +102,54 @@
               environment.systemPackages = with pkgs; [
                 nodejs_20
                 nodePackages.pnpm
+                # Add stdbuf from coreutils
+                coreutils
               ];
 
 
-  # Create a minimal proxy server script
-  systemd.tmpfiles.rules = [
-    "d /opt/proxy-server 0755 root root -"
-    "L+ /opt/proxy-server/package.json - - - - ${pkgs.writeText "package.json" ''
-      {
-        "name": "test-proxy-server",
-        "type": "module",
-        "dependencies": {}
-      }
-    ''}"
-    # --- FIX: Create the script in the root of the working directory ---
-    "L+ /opt/proxy-server/proxy-server.js - - - - ${pkgs.writeText "proxy-server.js" ''
-      console.log('Starting proxy server...');
-      console.log('Server ready');
-      // Keep running
-      setInterval(() => {}, 1000);
-    ''}"
-  ];
+              # Create a minimal proxy server script
+              systemd.tmpfiles.rules = [
+                "d /opt/proxy-server 0755 root root -"
+                "L+ /opt/proxy-server/package.json - - - - ${pkgs.writeText "package.json" ''
+                  {
+                    "name": "test-proxy-server",
+                    "type": "module",
+                    "dependencies": {}
+                  }
+                ''}"
+                "L+ /opt/proxy-server/proxy-server.js - - - - ${pkgs.writeText "proxy-server.js" ''
+                  console.log('Starting proxy server...');
+                  console.log('Server ready');
+                  // Keep running
+                  setInterval(() => {}, 1000);
+                ''}"
+              ];
 
-    systemd.services.jazz-proxy-server = {
-    description = "Jazz Proxy Server";
-    wantedBy = [ "multi-user.target" ];
-    after = [ "network.target" ];
-    environment = {
-      JAZZ_SYNC_URL = "ws://localhost:4200";
-      JAZZ_PROXY_SERVER_ACCOUNT = testServerAccount;
-      JAZZ_PROXY_SERVER_SECRET = testServerSecret;
-      NODE_ENV = "test";
-    };
-    serviceConfig = {
-      WorkingDirectory = "/opt/proxy-server";
-      # FIX: Use an absolute path to the script for robustness.
-      ExecStart = "${pkgs.nodejs_20}/bin/node /opt/proxy-server/proxy-server.js";
-      Restart = "always";
-    };
-  };
-};
+                systemd.services.jazz-proxy-server = {
+                description = "Jazz Proxy Server";
+                wantedBy = [ "multi-user.target" ];
+                after = [ "network.target" ];
+                environment = {
+                  JAZZ_SYNC_URL = "ws://localhost:4200";
+                  JAZZ_PROXY_SERVER_ACCOUNT = testServerAccount;
+                  JAZZ_PROXY_SERVER_SECRET = testServerSecret;
+                  NODE_ENV = "test";
+                };
+                serviceConfig = {
+                  WorkingDirectory = "/opt/proxy-server";
+                  # FIX: Use stdbuf to force line-buffering on stdout
+                  ExecStart = "${pkgs.coreutils}/bin/stdbuf -oL ${pkgs.nodejs_20}/bin/node /opt/proxy-server/proxy-server.js";
+                  Restart = "always";
+                };
+              };
+            };
 
-testScript = ''
-  proxyServer.wait_for_unit("jazz-proxy-server.service")
+            testScript = ''
+              proxyServer.wait_for_unit("jazz-proxy-server.service")
 
-  # Check if server started successfully
-  proxyServer.succeed("journalctl -u jazz-proxy-server | grep 'Server ready'")
-'';
+              # Check if server started successfully
+              proxyServer.succeed("journalctl -u jazz-proxy-server | grep 'Server ready'")
+            '';
           };
           
           # Test 3: Full client-server proxy data flow
@@ -168,10 +169,18 @@ testScript = ''
               systemd.tmpfiles.rules = [
                 "d /opt/mock-server 0755 root root -"
                 "d /opt/proxy-server 0755 root root -"
+                # FIX: Add a package.json for the mock server
+                "L+ /opt/mock-server/package.json - - - - ${pkgs.writeText "package.json" ''
+                  {
+                    "name": "mock-jazz-server",
+                    "dependencies": { "ws": "^8.0.0" }
+                  }
+                ''}"
                 "L+ /opt/mock-server/mock-jazz-server.js - - - - ${pkgs.writeText "mock-jazz-server.js" ''
                   console.log('Mock Jazz Server starting...');
-                  const WebSocket = require('ws');
-                  const wss = new WebSocket.Server({ port: 4200 });
+                  // FIX: Use correct import and class for ws library
+                  const { WebSocketServer } = require('ws');
+                  const wss = new WebSocketServer({ port: 4200 });
                   console.log('Mock Jazz Server listening on :4200');
 
                   wss.on('connection', (ws) => {
@@ -187,6 +196,8 @@ testScript = ''
                   console.log('Server ready');
                   console.log('Saved 2 servers');
                   console.log('V2Ray config generated');
+                  // FIX: Keep the script running
+                  setInterval(() => {}, 1000 * 60 * 60);
                 ''}"
               ];
 
@@ -198,6 +209,8 @@ testScript = ''
                 path = [ pkgs.nodejs_20 ];
                 serviceConfig = {
                   WorkingDirectory = "/opt/mock-server";
+                  # FIX: Install dependencies before starting
+                  ExecStartPre = "${pkgs.nodePackages.pnpm}/bin/pnpm install --prod";
                   ExecStart = "${pkgs.nodejs_20}/bin/node /opt/mock-server/mock-jazz-server.js";
                   Restart = "always";
                 };
@@ -333,7 +346,8 @@ testScript = ''
 
             testScript = ''
               webhookServer.wait_for_unit("webhook-server.service")
-              webhookServer.wait_for_open_port(3000)
+              # FIX: Wait for the application log message for better reliability
+              webhookServer.wait_until_succeeds("journalctl -u webhook-server | grep 'Webhook server listening on :3000'")
 
               # Test webhook endpoint
               client.succeed("""
