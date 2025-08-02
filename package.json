@@ -29,7 +29,8 @@
     "adm-zip": "^0.5.10",
     "ws": "^8.18.3",
     "node-fetch": "^3.3.2",
-    "dotenv": "^16.3.1"
+    "dotenv": "^16.3.1",
+    "jazz-run": "^0.16.3"
   },
   "devDependencies": {
     "esbuild": "^0.19.0"
