@@ -1,0 +1,52 @@
+{
+  "name": "prismai",
+  "version": "1.0.0",
+  "description": "Proxy manager with Jazz integration",
+  "type": "module",
+  "scripts": {
+    "postinstall": "echo 'Dependencies installed successfully!'",
+    "modify-extension": "node e2e/modify-extension.js",
+    "start-webhook": "node e2e/proxy-webhook-server.js",
+    "start-jazz-server": "node e2e/proxy-server.js",
+    "start-all": "npm-run-all --parallel start-jazz-server start-webhook",
+    
+    "test-webhook": "node e2e/test-webhook.js",
+    "get-v2ray-config": "node e2e/get-v2ray-config.js",
+    "view-history": "node e2e/view-test-history.js",
+    
+    "generate-accounts": "npx jazz-run account create",
+    "clean": "rm -rf .modified-extension proxy-data e2e/v2ray-configs",
+    "setup": "npm run clean && npm run modify-extension",
+    
+    "dev": "nodemon --watch e2e -e js e2e/proxy-webhook-server.js",
+    "pm2:start": "pm2 start ecosystem.config.cjs",
+    "pm2:stop": "pm2 stop all",
+    "pm2:restart": "pm2 restart all",
+    "pm2:logs": "pm2 logs"
+  },
+  "keywords": [
+    "proxy",
+    "v2ray",
+    "jazz",
+    "webhook"
+  ],
+  "author": "",
+  "license": "MIT",
+  "dependencies": {
+    "jazz-tools": "^0.16.1",
+    "express": "^4.18.2",
+    "cors": "^2.8.5",
+    "adm-zip": "^0.5.10",
+    "ws": "^8.18.3",
+    "node-fetch": "^3.3.2",
+    "dotenv": "^16.3.1"
+  },
+  "devDependencies": {
+    "@types/node": "^20.10.0",
+    "npm-run-all": "^4.1.5",
+    "nodemon": "^3.0.2"
+  },
+  "engines": {
+    "node": ">=20.0.0"
+  }
+}
