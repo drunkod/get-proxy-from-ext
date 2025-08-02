@@ -104,48 +104,51 @@
                 nodePackages.pnpm
               ];
 
-              # Create a minimal proxy server script
-              systemd.tmpfiles.rules = [
-                "d /opt/proxy-server 0755 root root -"
-                "L+ /opt/proxy-server/package.json - - - - ${pkgs.writeText "package.json" ''
-                  {
-                    "name": "test-proxy-server",
-                    "type": "module",
-                    "dependencies": {}
-                  }
-                ''}"
-                "L+ /opt/proxy-server/e2e/proxy-server.js - - - - ${pkgs.writeText "proxy-server.js" ''
-                  console.log('Starting proxy server...');
-                  console.log('Server ready');
-                  // Keep running
-                  setInterval(() => {}, 1000);
-                ''}"
-              ];
 
-              systemd.services.jazz-proxy-server = {
-                description = "Jazz Proxy Server";
-                wantedBy = [ "multi-user.target" ];
-                after = [ "network.target" ];
-                environment = {
-                  JAZZ_SYNC_URL = "ws://localhost:4200";
-                  JAZZ_PROXY_SERVER_ACCOUNT = testServerAccount;
-                  JAZZ_PROXY_SERVER_SECRET = testServerSecret;
-                  NODE_ENV = "test";
-                };
-                serviceConfig = {
-                  WorkingDirectory = "/opt/proxy-server";
-                  ExecStart = "${pkgs.nodejs_20}/bin/node e2e/proxy-server.js";
-                  Restart = "always";
-                };
-              };
-            };
+  # Create a minimal proxy server script
+  systemd.tmpfiles.rules = [
+    "d /opt/proxy-server 0755 root root -"
+    "L+ /opt/proxy-server/package.json - - - - ${pkgs.writeText "package.json" ''
+      {
+        "name": "test-proxy-server",
+        "type": "module",
+        "dependencies": {}
+      }
+    ''}"
+    # --- FIX: Create the script in the root of the working directory ---
+    "L+ /opt/proxy-server/proxy-server.js - - - - ${pkgs.writeText "proxy-server.js" ''
+      console.log('Starting proxy server...');
+      console.log('Server ready');
+      // Keep running
+      setInterval(() => {}, 1000);
+    ''}"
+  ];
 
-            testScript = ''
-              proxyServer.wait_for_unit("jazz-proxy-server.service")
+    systemd.services.jazz-proxy-server = {
+    description = "Jazz Proxy Server";
+    wantedBy = [ "multi-user.target" ];
+    after = [ "network.target" ];
+    environment = {
+      JAZZ_SYNC_URL = "ws://localhost:4200";
+      JAZZ_PROXY_SERVER_ACCOUNT = testServerAccount;
+      JAZZ_PROXY_SERVER_SECRET = testServerSecret;
+      NODE_ENV = "test";
+    };
+    serviceConfig = {
+      WorkingDirectory = "/opt/proxy-server";
+      # FIX: Use an absolute path to the script for robustness.
+      ExecStart = "${pkgs.nodejs_20}/bin/node /opt/proxy-server/proxy-server.js";
+      Restart = "always";
+    };
+  };
+};
 
-              # Check if server started successfully
-              proxyServer.succeed("journalctl -u jazz-proxy-server | grep 'Server ready'")
-            '';
+testScript = ''
+  proxyServer.wait_for_unit("jazz-proxy-server.service")
+
+  # Check if server started successfully
+  proxyServer.succeed("journalctl -u jazz-proxy-server | grep 'Server ready'")
+'';
           };
           
           # Test 3: Full client-server proxy data flow
