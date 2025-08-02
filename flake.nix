@@ -3,7 +3,7 @@
   description = "A development environment for the Prismai proxy management with Jazz integration.";
 
   inputs = {
-    nixpkgs.url = "github:NixOS/nixpkgs/nixos-25.05";
+    nixpkgs.url = "github:NixOS/nixpkgs/nixos-unstable";
     flake-utils.url = "github:numtide/flake-utils";
   };
 
@@ -48,7 +48,7 @@
 JAZZ_SYNC_URL=${jazzSyncUrl}
 
 # Jazz Server Account (generate with: jazz-create-account "Proxy Server")
-JAZZ_PROXY_SERVER_ACCOUNT=
+JAZE2E_PROXY_SERVER_ACCOUNT=
 JAZZ_PROXY_SERVER_SECRET=
 
 # Jazz Client Account (generate with: jazz-create-account "Proxy Client")
@@ -171,7 +171,7 @@ EOF
             
             # Start with PM2
             pm2 delete all 2>/dev/null || true
-            pm2 start ecosystem.config.cjs  # Changed to .cjs
+            pm2 start ecosystem.config.cjs
             pm2 logs
             }
           
@@ -211,12 +211,15 @@ EOF
             # Check PM2 status
             echo ""
             echo "📋 PM2 Status:"
-            pm2 status
+            pm2 list
             
-            # Check webhook server
+            # Check log files
             echo ""
-            echo "🌐 Webhook server:"
-            curl -s http://localhost:3000/status | jq . 2>/dev/null || echo "❌ Not running"
+            echo "📜 Recent server logs:"
+            tail -n 10 logs/jazz-proxy-out.log || echo "No output log."
+            echo ""
+            echo "📜 Recent server errors:"
+            tail -n 10 logs/jazz-proxy-error.log || echo "No error log."
           }
         '';
 
