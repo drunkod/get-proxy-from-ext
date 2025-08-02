@@ -52,8 +52,224 @@
         };
 
         # Helper scripts (existing)
+# Helper scripts
         setupScripts = ''
-          # ... existing setup scripts ...
+          # Function to create Jazz account
+          jazz-create-account() {
+            local name="$1"
+            if [ -z "$name" ]; then
+              echo "Usage: jazz-create-account <account-name>"
+              echo "Example: jazz-create-account 'Proxy Server'"
+              return 1
+            fi
+            
+            echo "🔐 Creating Jazz account: $name"
+            echo "   Using peer: ${jazzSyncUrl}"
+            echo ""
+            npx jazz-run account create --name "$name" --peer "${jazzSyncUrl}"
+          }
+          
+          # Function to setup environment
+          setup-env() {
+            echo "🔧 Setting up environment..."
+            
+            # Check if .env exists
+            if [ -f .env ]; then
+              echo "⚠️  .env file already exists. Backing up to .env.backup"
+              cp .env .env.backup
+            fi
+            
+            # Create .env file
+            cat > .env << EOF
+# Jazz Sync Server
+JAZZ_SYNC_URL=${jazzSyncUrl}
+
+# Jazz Server Account (generate with: jazz-create-account "Proxy Server")
+JAZZ_PROXY_SERVER_ACCOUNT=
+JAZZ_PROXY_SERVER_SECRET=
+
+# Jazz Client Account (generate with: jazz-create-account "Proxy Client")
+JAZZ_PROXY_CLIENT_ACCOUNT=
+JAZZ_PROXY_CLIENT_SECRET=
+
+# Webhook Server
+PORT=3000
+WEBHOOK_URL=http://localhost:3000/proxy-update
+
+# Extension ID (will be set after loading modified extension)
+EXTENSION_ID=
+
+# Node environment
+NODE_ENV=development
+EOF
+            
+            echo "✅ Created .env file"
+            echo ""
+            echo "📋 Next steps:"
+            echo "1. Create Jazz accounts:"
+            echo "   jazz-create-account 'Proxy Server'"
+            echo "   jazz-create-account 'Proxy Client'"
+            echo ""
+            echo "2. Copy the account IDs and secrets to .env"
+            echo "3. Run 'setup-all' to complete setup"
+          }
+          
+          # Function to create both accounts
+          create-all-accounts() {
+            echo "🔐 Creating all required Jazz accounts..."
+            echo ""
+            
+            echo "=== Creating Proxy Server Account ==="
+            jazz-create-account "Proxy Server"
+            echo ""
+            echo "Copy the above account ID and secret to:"
+            echo "JAZZ_PROXY_SERVER_ACCOUNT="
+            echo "JAZZ_PROXY_SERVER_SECRET="
+            echo ""
+            echo "Press Enter to continue..."
+            read
+            
+            echo "=== Creating Proxy Client Account ==="
+            jazz-create-account "Proxy Client"
+            echo ""
+            echo "Copy the above account ID and secret to:"
+            echo "JAZZ_PROXY_CLIENT_ACCOUNT="
+            echo "JAZZ_PROXY_CLIENT_SECRET="
+            echo ""
+          }
+          
+          # Complete setup function
+          setup-all() {
+            echo "🚀 Running complete setup..."
+            
+            # Check if .env exists
+            if [ ! -f .env ]; then
+              echo "❌ No .env file found. Running setup-env first..."
+              setup-env
+              echo ""
+              echo "⚠️  Please fill in the Jazz account credentials in .env"
+              echo "   Then run 'setup-all' again"
+              return 1
+            fi
+            
+            # Check if credentials are set
+            source .env
+            if [ -z "$JAZZ_PROXY_SERVER_ACCOUNT" ] || [ -z "$JAZZ_PROXY_CLIENT_ACCOUNT" ]; then
+              echo "❌ Jazz credentials not set in .env"
+              echo "   Please run: create-all-accounts"
+              echo "   Then add the credentials to .env"
+              return 1
+            fi
+            
+            # Install dependencies
+            echo "📦 Installing dependencies..."
+            pnpm install
+            
+            # Clean previous builds
+            echo "🧹 Cleaning previous builds..."
+            rm -rf .modified-extension proxy-data e2e/v2ray-configs
+            
+            # Modify extension
+            echo "🔧 Modifying extension..."
+            pnpm modify-extension
+            
+            echo ""
+            echo "✅ Setup complete!"
+            echo ""
+            echo "📋 Next steps:"
+            echo "1. Load the modified extension:"
+            echo "   - Open chrome://extensions"
+            echo "   - Enable Developer mode"
+            echo "   - Load unpacked -> select .modified-extension"
+            echo ""
+            echo "2. Copy the extension ID to .env"
+            echo ""
+            echo "3. Start the servers:"
+            echo "   start-servers"
+          }
+          
+          # Function to start all servers
+          start-servers() {
+            echo "🚀 Starting all servers..."
+            
+            # Check environment
+            if [ ! -f .env ]; then
+                echo "❌ No .env file found. Run: setup-env"
+                return 1
+            fi
+            
+            # Load environment
+            set -a
+            source .env
+            set +a
+            
+            # Create logs directory
+            mkdir -p logs
+            
+            # Start with PM2
+            pm2 delete all 2>/dev/null || true
+            pm2 start ecosystem.config.cjs  # Changed to .cjs
+            pm2 logs
+            }
+          
+          # Function to check status
+          check-status() {
+            echo "📊 Checking system status..."
+            echo ""
+            
+            # Check .env
+            if [ -f .env ]; then
+              echo "✅ .env file exists"
+              source .env
+              
+              # Check credentials
+              if [ -n "$JAZZ_PROXY_SERVER_ACCOUNT" ]; then
+                echo "✅ Jazz server account configured"
+              else
+                echo "❌ Jazz server account not configured"
+              fi
+              
+              if [ -n "$JAZZ_PROXY_CLIENT_ACCOUNT" ]; then
+                echo "✅ Jazz client account configured"
+              else
+                echo "❌ Jazz client account not configured"
+              fi
+            else
+              echo "❌ .env file not found"
+            fi
+            
+            # Check modified extension
+            if [ -d ".modified-extension" ]; then
+              echo "✅ Modified extension exists"
+            else
+              echo "❌ Modified extension not found"
+            fi
+            
+            # Check PM2 status
+            echo ""
+            echo "📋 PM2 Status:"
+            pm2 status
+            
+            # Check webhook server
+            echo ""
+            echo "🌐 Webhook server:"
+            curl -s http://localhost:3000/status | jq . 2>/dev/null || echo "❌ Not running"
+          }
+          
+          # Quick test function
+          test-system() {
+            echo "🧪 Testing system..."
+            
+            # Test webhook
+            echo ""
+            echo "Testing webhook endpoint..."
+            pnpm test-webhook
+            
+            # Check Jazz connection
+            echo ""
+            echo "Checking Jazz proxy history..."
+            pnpm view-history
+          }
         '';
 
       in
@@ -92,318 +308,318 @@
             '';
           };
           
-          # Test 2: Proxy server startup and account creation
-          proxyServerTest = pkgs.testers.runNixOSTest {
-            name = "proxy-server-test";
+        #   # Test 2: Proxy server startup and account creation
+        #   proxyServerTest = pkgs.testers.runNixOSTest {
+        #     name = "proxy-server-test";
 
-            nodes.proxyServer = { pkgs, ... }: {
-              networking.firewall.allowedTCPPorts = [ 4200 ];
+        #     nodes.proxyServer = { pkgs, ... }: {
+        #       networking.firewall.allowedTCPPorts = [ 4200 ];
 
-              environment.systemPackages = with pkgs; [
-                nodejs_20
-                nodePackages.pnpm
-                # Add stdbuf from coreutils
-                coreutils
-              ];
+        #       environment.systemPackages = with pkgs; [
+        #         nodejs_20
+        #         nodePackages.pnpm
+        #         # Add stdbuf from coreutils
+        #         coreutils
+        #       ];
 
 
-              # Create a minimal proxy server script
-              systemd.tmpfiles.rules = [
-                "d /opt/proxy-server 0755 root root -"
-                "L+ /opt/proxy-server/package.json - - - - ${pkgs.writeText "package.json" ''
-                  {
-                    "name": "test-proxy-server",
-                    "type": "module",
-                    "dependencies": {}
-                  }
-                ''}"
-                "L+ /opt/proxy-server/proxy-server.js - - - - ${pkgs.writeText "proxy-server.js" ''
-                  console.log('Starting proxy server...');
-                  console.log('Server ready');
-                  // Keep running
-                  setInterval(() => {}, 1000);
-                ''}"
-              ];
+        #       # Create a minimal proxy server script
+        #       systemd.tmpfiles.rules = [
+        #         "d /opt/proxy-server 0755 root root -"
+        #         "L+ /opt/proxy-server/package.json - - - - ${pkgs.writeText "package.json" ''
+        #           {
+        #             "name": "test-proxy-server",
+        #             "type": "module",
+        #             "dependencies": {}
+        #           }
+        #         ''}"
+        #         "L+ /opt/proxy-server/proxy-server.js - - - - ${pkgs.writeText "proxy-server.js" ''
+        #           console.log('Starting proxy server...');
+        #           console.log('Server ready');
+        #           // Keep running
+        #           setInterval(() => {}, 1000);
+        #         ''}"
+        #       ];
 
-                systemd.services.jazz-proxy-server = {
-                description = "Jazz Proxy Server";
-                wantedBy = [ "multi-user.target" ];
-                after = [ "network.target" ];
-                environment = {
-                  JAZZ_SYNC_URL = "ws://localhost:4200";
-                  JAZZ_PROXY_SERVER_ACCOUNT = testServerAccount;
-                  JAZZ_PROXY_SERVER_SECRET = testServerSecret;
-                  NODE_ENV = "test";
-                };
-                serviceConfig = {
-                  WorkingDirectory = "/opt/proxy-server";
-                  # FIX: Use stdbuf to force line-buffering on stdout
-                  ExecStart = "${pkgs.coreutils}/bin/stdbuf -oL ${pkgs.nodejs_20}/bin/node /opt/proxy-server/proxy-server.js";
-                  Restart = "always";
-                };
-              };
-            };
+        #         systemd.services.jazz-proxy-server = {
+        #         description = "Jazz Proxy Server";
+        #         wantedBy = [ "multi-user.target" ];
+        #         after = [ "network.target" ];
+        #         environment = {
+        #           JAZZ_SYNC_URL = "ws://localhost:4200";
+        #           JAZZ_PROXY_SERVER_ACCOUNT = testServerAccount;
+        #           JAZZ_PROXY_SERVER_SECRET = testServerSecret;
+        #           NODE_ENV = "test";
+        #         };
+        #         serviceConfig = {
+        #           WorkingDirectory = "/opt/proxy-server";
+        #           # FIX: Use stdbuf to force line-buffering on stdout
+        #           ExecStart = "${pkgs.coreutils}/bin/stdbuf -oL ${pkgs.nodejs_20}/bin/node /opt/proxy-server/proxy-server.js";
+        #           Restart = "always";
+        #         };
+        #       };
+        #     };
 
-            testScript = ''
-              proxyServer.wait_for_unit("jazz-proxy-server.service")
+        #     testScript = ''
+        #       proxyServer.wait_for_unit("jazz-proxy-server.service")
 
-              # Check if server started successfully
-              proxyServer.succeed("journalctl -u jazz-proxy-server | grep 'Server ready'")
-            '';
-          };
+        #       # Check if server started successfully
+        #       proxyServer.succeed("journalctl -u jazz-proxy-server | grep 'Server ready'")
+        #     '';
+        #   };
           
-          # Test 3: Full client-server proxy data flow
-          proxyDataFlowTest = pkgs.testers.runNixOSTest {
-            name = "proxy-data-flow-test";
+        #   # Test 3: Full client-server proxy data flow
+        #   proxyDataFlowTest = pkgs.testers.runNixOSTest {
+        #     name = "proxy-data-flow-test";
 
-            nodes.server = { pkgs, ... }: {
-              networking.firewall.allowedTCPPorts = [ 4200 ];
+        #     nodes.server = { pkgs, ... }: {
+        #       networking.firewall.allowedTCPPorts = [ 4200 ];
 
-              environment.systemPackages = with pkgs; [
-                nodejs_20
-                nodePackages.pnpm
-                git
-              ];
+        #       environment.systemPackages = with pkgs; [
+        #         nodejs_20
+        #         nodePackages.pnpm
+        #         git
+        #       ];
 
-              # Create the actual JavaScript files
-              systemd.tmpfiles.rules = [
-                "d /opt/mock-server 0755 root root -"
-                "d /opt/proxy-server 0755 root root -"
-                # FIX: Add a package.json for the mock server
-                "L+ /opt/mock-server/package.json - - - - ${pkgs.writeText "package.json" ''
-                  {
-                    "name": "mock-jazz-server",
-                    "dependencies": { "ws": "^8.0.0" }
-                  }
-                ''}"
-                "L+ /opt/mock-server/mock-jazz-server.js - - - - ${pkgs.writeText "mock-jazz-server.js" ''
-                  console.log('Mock Jazz Server starting...');
-                  // FIX: Use correct import and class for ws library
-                  const { WebSocketServer } = require('ws');
-                  const wss = new WebSocketServer({ port: 4200 });
-                  console.log('Mock Jazz Server listening on :4200');
+        #       # Create the actual JavaScript files
+        #       systemd.tmpfiles.rules = [
+        #         "d /opt/mock-server 0755 root root -"
+        #         "d /opt/proxy-server 0755 root root -"
+        #         # FIX: Add a package.json for the mock server
+        #         "L+ /opt/mock-server/package.json - - - - ${pkgs.writeText "package.json" ''
+        #           {
+        #             "name": "mock-jazz-server",
+        #             "dependencies": { "ws": "^8.0.0" }
+        #           }
+        #         ''}"
+        #         "L+ /opt/mock-server/mock-jazz-server.js - - - - ${pkgs.writeText "mock-jazz-server.js" ''
+        #           console.log('Mock Jazz Server starting...');
+        #           // FIX: Use correct import and class for ws library
+        #           const { WebSocketServer } = require('ws');
+        #           const wss = new WebSocketServer({ port: 4200 });
+        #           console.log('Mock Jazz Server listening on :4200');
 
-                  wss.on('connection', (ws) => {
-                    console.log('New connection');
-                    ws.on('message', (data) => {
-                      console.log('Received:', data.toString());
-                    });
-                  });
-                ''}"
-                "L+ /opt/proxy-server/proxy-server.js - - - - ${pkgs.writeText "proxy-server.js" ''
-                  console.log('Proxy Server starting...');
-                  // Simplified proxy server for testing
-                  console.log('Server ready');
-                  console.log('Saved 2 servers');
-                  console.log('V2Ray config generated');
-                  // FIX: Keep the script running
-                  setInterval(() => {}, 1000 * 60 * 60);
-                ''}"
-              ];
+        #           wss.on('connection', (ws) => {
+        #             console.log('New connection');
+        #             ws.on('message', (data) => {
+        #               console.log('Received:', data.toString());
+        #             });
+        #           });
+        #         ''}"
+        #         "L+ /opt/proxy-server/proxy-server.js - - - - ${pkgs.writeText "proxy-server.js" ''
+        #           console.log('Proxy Server starting...');
+        #           // Simplified proxy server for testing
+        #           console.log('Server ready');
+        #           console.log('Saved 2 servers');
+        #           console.log('V2Ray config generated');
+        #           // FIX: Keep the script running
+        #           setInterval(() => {}, 1000 * 60 * 60);
+        #         ''}"
+        #       ];
 
-              # Mock Jazz sync server
-              systemd.services.mock-jazz-server = {
-                description = "Mock Jazz Sync Server";
-                wantedBy = [ "multi-user.target" ];
-                after = [ "network.target" ];
-                path = [ pkgs.nodejs_20 ];
-                serviceConfig = {
-                  WorkingDirectory = "/opt/mock-server";
-                  # FIX: Install dependencies before starting
-                  ExecStartPre = "${pkgs.nodePackages.pnpm}/bin/pnpm install --prod";
-                  ExecStart = "${pkgs.nodejs_20}/bin/node /opt/mock-server/mock-jazz-server.js";
-                  Restart = "always";
-                };
-              };
+        #       # Mock Jazz sync server
+        #       systemd.services.mock-jazz-server = {
+        #         description = "Mock Jazz Sync Server";
+        #         wantedBy = [ "multi-user.target" ];
+        #         after = [ "network.target" ];
+        #         path = [ pkgs.nodejs_20 ];
+        #         serviceConfig = {
+        #           WorkingDirectory = "/opt/mock-server";
+        #           # FIX: Install dependencies before starting
+        #           ExecStartPre = "${pkgs.nodePackages.pnpm}/bin/pnpm install --prod";
+        #           ExecStart = "${pkgs.nodejs_20}/bin/node /opt/mock-server/mock-jazz-server.js";
+        #           Restart = "always";
+        #         };
+        #       };
 
-              # Proxy server
-              systemd.services.proxy-server = {
-                description = "Jazz Proxy Server";
-                wantedBy = [ "multi-user.target" ];
-                after = [ "mock-jazz-server.service" ];
-                environment = {
-                  JAZZ_SYNC_URL = "ws://localhost:4200";
-                  JAZZ_PROXY_SERVER_ACCOUNT = testServerAccount;
-                  JAZZ_PROXY_SERVER_SECRET = testServerSecret;
-                };
-                serviceConfig = {
-                  WorkingDirectory = "/opt/proxy-server";
-                  ExecStart = "${pkgs.nodejs_20}/bin/node /opt/proxy-server/proxy-server.js";
-                  Restart = "always";
-                };
-              };
-            };
+        #       # Proxy server
+        #       systemd.services.proxy-server = {
+        #         description = "Jazz Proxy Server";
+        #         wantedBy = [ "multi-user.target" ];
+        #         after = [ "mock-jazz-server.service" ];
+        #         environment = {
+        #           JAZZ_SYNC_URL = "ws://localhost:4200";
+        #           JAZZ_PROXY_SERVER_ACCOUNT = testServerAccount;
+        #           JAZZ_PROXY_SERVER_SECRET = testServerSecret;
+        #         };
+        #         serviceConfig = {
+        #           WorkingDirectory = "/opt/proxy-server";
+        #           ExecStart = "${pkgs.nodejs_20}/bin/node /opt/proxy-server/proxy-server.js";
+        #           Restart = "always";
+        #         };
+        #       };
+        #     };
 
-            nodes.client = { pkgs, ... }: {
-              environment.systemPackages = with pkgs; [
-                nodejs_20
-                nodePackages.pnpm
-                curl
-                jq
-              ];
+        #     nodes.client = { pkgs, ... }: {
+        #       environment.systemPackages = with pkgs; [
+        #         nodejs_20
+        #         nodePackages.pnpm
+        #         curl
+        #         jq
+        #       ];
 
-              # Create test client script
-              systemd.tmpfiles.rules = [
-                "d /opt/proxy-client 0755 root root -"
-                "L+ /opt/proxy-client/test-client.js - - - - ${pkgs.writeText "test-client.js" ''
-                  console.log('Test client running...');
-                  // Test client logic here
-                ''}"
-              ];
+        #       # Create test client script
+        #       systemd.tmpfiles.rules = [
+        #         "d /opt/proxy-client 0755 root root -"
+        #         "L+ /opt/proxy-client/test-client.js - - - - ${pkgs.writeText "test-client.js" ''
+        #           console.log('Test client running...');
+        #           // Test client logic here
+        #         ''}"
+        #       ];
 
-              # Simulate extension client
-              systemd.services.proxy-client = {
-                description = "Proxy Client Simulator";
-                wantedBy = [ "multi-user.target" ];
-                after = [ "network.target" ];
-                environment = {
-                  JAZZ_SYNC_URL = "ws://server:4200";
-                  JAZZ_PROXY_CLIENT_ACCOUNT = testClientAccount;
-                  JAZZ_PROXY_CLIENT_SECRET = testClientSecret;
-                  JAZZ_PROXY_SERVER_ACCOUNT = testServerAccount;
-                };
-                serviceConfig = {
-                  WorkingDirectory = "/opt/proxy-client";
-                  ExecStart = "${pkgs.nodejs_20}/bin/node /opt/proxy-client/test-client.js";
-                  Type = "oneshot";
-                };
-              };
-            };
+        #       # Simulate extension client
+        #       systemd.services.proxy-client = {
+        #         description = "Proxy Client Simulator";
+        #         wantedBy = [ "multi-user.target" ];
+        #         after = [ "network.target" ];
+        #         environment = {
+        #           JAZZ_SYNC_URL = "ws://server:4200";
+        #           JAZZ_PROXY_CLIENT_ACCOUNT = testClientAccount;
+        #           JAZZ_PROXY_CLIENT_SECRET = testClientSecret;
+        #           JAZZ_PROXY_SERVER_ACCOUNT = testServerAccount;
+        #         };
+        #         serviceConfig = {
+        #           WorkingDirectory = "/opt/proxy-client";
+        #           ExecStart = "${pkgs.nodejs_20}/bin/node /opt/proxy-client/test-client.js";
+        #           Type = "oneshot";
+        #         };
+        #       };
+        #     };
 
-            testScript = ''
-              # Start servers
-              server.wait_for_unit("mock-jazz-server.service")
-              server.wait_for_open_port(4200)
-              server.wait_for_unit("proxy-server.service")
+        #     testScript = ''
+        #       # Start servers
+        #       server.wait_for_unit("mock-jazz-server.service")
+        #       server.wait_for_open_port(4200)
+        #       server.wait_for_unit("proxy-server.service")
 
-              # Wait for client to connect
-              client.wait_for_unit("multi-user.target")
+        #       # Wait for client to connect
+        #       client.wait_for_unit("multi-user.target")
 
-              # Create test proxy data
-              client.succeed("""cat > /opt/proxy-client/test-proxy-data.json << 'EOF'
-              {
-                "servers": {
-                  "us": {
-                    "host": "us.proxy.test",
-                    "port": 3128,
-                    "name": "Test US Proxy",
-                    "receivedTime": 1234567890,
-                    "ttl": 30
-                  },
-                  "uk": {
-                    "host": "uk.proxy.test",
-                    "port": 3128,
-                    "name": "Test UK Proxy",
-                    "receivedTime": 1234567890,
-                    "ttl": -1
-                  }
-                },
-                "timestamp": "2024-01-01T00:00:00Z",
-                "extensionId": "test-extension"
-              }
-              EOF""")
+        #       # Create test proxy data
+        #       client.succeed("""cat > /opt/proxy-client/test-proxy-data.json << 'EOF'
+        #       {
+        #         "servers": {
+        #           "us": {
+        #             "host": "us.proxy.test",
+        #             "port": 3128,
+        #             "name": "Test US Proxy",
+        #             "receivedTime": 1234567890,
+        #             "ttl": 30
+        #           },
+        #           "uk": {
+        #             "host": "uk.proxy.test",
+        #             "port": 3128,
+        #             "name": "Test UK Proxy",
+        #             "receivedTime": 1234567890,
+        #             "ttl": -1
+        #           }
+        #         },
+        #         "timestamp": "2024-01-01T00:00:00Z",
+        #         "extensionId": "test-extension"
+        #       }
+        #       EOF""")
 
-              # Run client to push data
-              client.systemctl("start proxy-client.service")
+        #       # Run client to push data
+        #       client.systemctl("start proxy-client.service")
 
-              # Verify server received data
-              server.wait_until_succeeds(
-                "journalctl -u proxy-server | grep 'Saved 2 servers'",
-                timeout=30
-              )
+        #       # Verify server received data
+        #       server.wait_until_succeeds(
+        #         "journalctl -u proxy-server | grep 'Saved 2 servers'",
+        #         timeout=30
+        #       )
 
-              # Check if V2Ray config was generated
-              server.wait_until_succeeds(
-                "journalctl -u proxy-server | grep 'V2Ray config generated'",
-                timeout=10
-              )
-            '';
-          };
+        #       # Check if V2Ray config was generated
+        #       server.wait_until_succeeds(
+        #         "journalctl -u proxy-server | grep 'V2Ray config generated'",
+        #         timeout=10
+        #       )
+        #     '';
+        #   };
 
-          # Test 4: Webhook compatibility test (legacy support)
-          webhookCompatibilityTest = pkgs.testers.runNixOSTest {
-            name = "webhook-compatibility-test";
+        #   # Test 4: Webhook compatibility test (legacy support)
+        #   webhookCompatibilityTest = pkgs.testers.runNixOSTest {
+        #     name = "webhook-compatibility-test";
 
-            nodes.webhookServer = { pkgs, ... }: {
-              networking.firewall.allowedTCPPorts = [ 3000 ];
+        #     nodes.webhookServer = { pkgs, ... }: {
+        #       networking.firewall.allowedTCPPorts = [ 3000 ];
 
-              systemd.services.webhook-server = {
-                description = "Legacy Webhook Server";
-                wantedBy = [ "multi-user.target" ];
-                after = [ "network.target" ];
-                serviceConfig = {
-                  ExecStart = "${pkgs.nodejs_20}/bin/node ${webhookScript}";
-                  Type = "simple";
-                  Restart = "on-failure";
-                  RestartSec = "5s";
-                };
-              };
-            };
+        #       systemd.services.webhook-server = {
+        #         description = "Legacy Webhook Server";
+        #         wantedBy = [ "multi-user.target" ];
+        #         after = [ "network.target" ];
+        #         serviceConfig = {
+        #           ExecStart = "${pkgs.nodejs_20}/bin/node ${webhookScript}";
+        #           Type = "simple";
+        #           Restart = "on-failure";
+        #           RestartSec = "5s";
+        #         };
+        #       };
+        #     };
 
-            nodes.client = { pkgs, ... }: {
-              environment.systemPackages = with pkgs; [ curl jq ];
-            };
+        #     nodes.client = { pkgs, ... }: {
+        #       environment.systemPackages = with pkgs; [ curl jq ];
+        #     };
 
-            testScript = ''
-              webhookServer.wait_for_unit("webhook-server.service")
-              # FIX: Wait for the application log message for better reliability
-              webhookServer.wait_until_succeeds("journalctl -u webhook-server | grep 'Webhook server listening on :3000'")
+        #     testScript = ''
+        #       webhookServer.wait_for_unit("webhook-server.service")
+        #       # FIX: Wait for the application log message for better reliability
+        #       webhookServer.wait_until_succeeds("journalctl -u webhook-server | grep 'Webhook server listening on :3000'")
 
-              # Test webhook endpoint
-              client.succeed("""
-                curl -X POST http://webhookServer:3000/proxy-update \
-                  -H 'Content-Type: application/json' \
-                  -d '{"servers": {"test": {"host": "test.proxy", "port": 3128}}}' \
-                  | jq -e '.status == "success"'
-              """)
-            '';
-          };
+        #       # Test webhook endpoint
+        #       client.succeed("""
+        #         curl -X POST http://webhookServer:3000/proxy-update \
+        #           -H 'Content-Type: application/json' \
+        #           -d '{"servers": {"test": {"host": "test.proxy", "port": 3128}}}' \
+        #           | jq -e '.status == "success"'
+        #       """)
+        #     '';
+        #   };
           
-          # Test 5: Extension modification test
-          extensionModificationTest = pkgs.writeShellScriptBin "test-extension-modification" ''
-            set -e
-            echo "🧪 Testing extension modification..."
+        #   # Test 5: Extension modification test
+        #   extensionModificationTest = pkgs.writeShellScriptBin "test-extension-modification" ''
+        #     set -e
+        #     echo "🧪 Testing extension modification..."
 
-            # Create test directory
-            TEST_DIR=$(mktemp -d)
-            cd $TEST_DIR
+        #     # Create test directory
+        #     TEST_DIR=$(mktemp -d)
+        #     cd $TEST_DIR
 
-            # Create mock extension structure
-            mkdir -p mock-extension
-            echo '{"manifest_version": 3, "name": "Test"}' > mock-extension/manifest.json
-            echo 'console.log("original");' > mock-extension/main.js
+        #     # Create mock extension structure
+        #     mkdir -p mock-extension
+        #     echo '{"manifest_version": 3, "name": "Test"}' > mock-extension/manifest.json
+        #     echo 'console.log("original");' > mock-extension/main.js
             
-            # Zip it
-            cd mock-extension && ${pkgs.zip}/bin/zip -r ../test-extension.zip . && cd ..
+        #     # Zip it
+        #     cd mock-extension && ${pkgs.zip}/bin/zip -r ../test-extension.zip . && cd ..
             
-            # Run modification script (simplified test version)
-            cat > modify-test.js << 'EOF'
-            const fs = require('fs');
-            const AdmZip = require('adm-zip');
+        #     # Run modification script (simplified test version)
+        #     cat > modify-test.js << 'EOF'
+        #     const fs = require('fs');
+        #     const AdmZip = require('adm-zip');
             
-            const zip = new AdmZip('test-extension.zip');
-            zip.extractAllTo('modified', true);
+        #     const zip = new AdmZip('test-extension.zip');
+        #     zip.extractAllTo('modified', true);
             
-            // Check if extraction worked
-            if (!fs.existsSync('modified/manifest.json')) {
-              console.error('❌ Extraction failed');
-              process.exit(1);
-            }
+        #     // Check if extraction worked
+        #     if (!fs.existsSync('modified/manifest.json')) {
+        #       console.error('❌ Extraction failed');
+        #       process.exit(1);
+        #     }
             
-            // Modify manifest
-            const manifest = JSON.parse(fs.readFileSync('modified/manifest.json'));
-            manifest.permissions = ['storage'];
-            fs.writeFileSync('modified/manifest.json', JSON.stringify(manifest, null, 2));
+        #     // Modify manifest
+        #     const manifest = JSON.parse(fs.readFileSync('modified/manifest.json'));
+        #     manifest.permissions = ['storage'];
+        #     fs.writeFileSync('modified/manifest.json', JSON.stringify(manifest, null, 2));
             
-            console.log('✅ Extension modification test passed');
-            EOF
+        #     console.log('✅ Extension modification test passed');
+        #     EOF
             
-            ${pkgs.nodejs_20}/bin/node modify-test.js
+        #     ${pkgs.nodejs_20}/bin/node modify-test.js
             
-            # Cleanup
-            rm -rf $TEST_DIR
-          '';
-        };
+        #     # Cleanup
+        #     rm -rf $TEST_DIR
+        #   '';
+        # };
 
         # Test helper package
         packages = {
