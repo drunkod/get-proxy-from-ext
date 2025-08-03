@@ -1,6 +1,6 @@
 // e2e/extension-src/background.js
 import { startWorker } from "jazz-tools/worker";
-import { InboxSender } from "jazz-tools";
+import { InboxSender, Group } from "jazz-tools"; // <-- IMPORT Group HERE
 import {
   ProxyClientAccount,
   ClientAccountRoot,
@@ -39,17 +39,20 @@ async function initializeJazz() {
     });
     jazzWorker = worker;
 
-    // Initialize account root if needed
+    // First, load the account without trying to resolve the root
     const account = await worker.ensureLoaded({
-      resolve: { profile: true, root: true }
+      resolve: { profile: true }
     });
 
+    // Now, check if the root exists and create it if it doesn't.
     if (!account.root) {
+      console.log('[Jazz] 🔧 Client account root not found. Initializing...');
       account.root = ClientAccountRoot.create({
         lastPushTime: null,
         pushCount: 0,
       }, { owner: worker });
       await account.waitForSync();
+      console.log('[Jazz] ✅ Client account root initialized.');
     }
 
     console.log("[Jazz] Loading sender for server account...");
@@ -71,7 +74,7 @@ async function registerWithServer() {
     const registration = ExtensionRegistration.create({
       type: 'register',
       extensionId: chrome.runtime.id,
-    }, { owner: jazzWorker });
+    }, { owner: Group.create({ owner: jazzWorker }) }); // FIX: Create a new group for the message
 
     await jazzSender.sendMessage(registration);
     console.log('[Jazz] ✅ Registered with server');
@@ -117,12 +120,13 @@ async function pushProxyUpdate(force = false) {
       servers: JSON.stringify(freshServers),
       timestamp: new Date().toISOString(),
       extensionId: chrome.runtime.id
-    }, { owner: jazzWorker });
+    }, { owner: Group.create({ owner: jazzWorker }) }); // FIX: Create a new group for the message
 
     await jazzSender.sendMessage(message);
     lastPushedData = serversJson;
 
     // Update client stats
+    // We need to ensure the root is loaded before updating it.
     const account = await jazzWorker.ensureLoaded({ resolve: { root: true } });
     if (account.root) {
       account.root.lastPushTime = new Date().toISOString();

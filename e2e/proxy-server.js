@@ -32,9 +32,24 @@ async function startProxyServer() {
   const account = await worker.ensureLoaded({
     resolve: { 
       profile: true,
-      root: true
+      // root: true
     }
   });
+
+  if (!account.root) {
+    console.log("🔧 Root not found. Initializing new account root...");
+    account.root = ServerAccountRoot.create({
+      configs: co.list(ProxyConfig).create([], { owner: worker }),
+      v2rayConfigs: co.list(V2RayConfig).create([], { owner: worker }),
+      stats: StatsSchema.create({
+        totalUpdates: 0,
+        totalProxiesEverSeen: 0,
+      }, { owner: worker }),
+      connectedExtensions: co.map({}).create({}, { owner: worker }), // Empty map
+    }, { owner: worker });
+    await account.waitForSync();
+    console.log("✅ New account root initialized.");
+  }
 
   // Now that we know `account.root` exists, load its contents.
   await account.root.ensureLoaded({
@@ -47,28 +62,10 @@ async function startProxyServer() {
       }
   });
 
-  // **FIX:** Check for and initialize the root CoValue if it doesn't exist.
-  // This is crucial for new or corrupted accounts.
-  if (!account.root) {
-    console.log("🔧 Root not found. Initializing new account root...");
-    account.root = ServerAccountRoot.create({
-      configs: co.list(ProxyConfig).create([], { owner: worker }),
-      v2rayConfigs: co.list(V2RayConfig).create([], { owner: worker }),
-      stats: StatsSchema.create({
-        totalUpdates: 0,
-        totalProxiesEverSeen: 0,
-      }, { owner: worker }),
-      connectedExtensions: co.map(z.string()).create({}, { owner: worker }),
-    }, { owner: worker });
-    await account.waitForSync();
-    console.log("✅ New account root initialized.");
-  }
-
-  // **FIX:** Add fallback initializations for each field in the root,
   // making the server robust against accounts with older schemas.
   if (!account.root.connectedExtensions) {
     console.log("🔧 Initializing missing 'connectedExtensions' map...");
-    account.root.connectedExtensions = co.map(z.string()).create({}, { owner: worker });
+    account.root.connectedExtensions = co.map({}).create({}, { owner: worker });
     await account.root.waitForSync();
   }
   if (!account.root.configs) {

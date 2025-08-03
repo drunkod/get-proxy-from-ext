@@ -3,7 +3,7 @@
   description = "A development environment for the Prismai proxy management with Jazz integration.";
 
   inputs = {
-    nixpkgs.url = "github:NixOS/nixpkgs/nixos-unstable";
+    nixpkgs.url = "github:NixOS/nixpkgs/nixos-25.05";
     flake-utils.url = "github:numtide/flake-utils";
   };
 
@@ -13,7 +13,8 @@
         pkgs = import nixpkgs { inherit system; };
         
         # Jazz sync server URL
-        jazzSyncUrl = "ws://node205197-env-9764176354321.mircloud.host:11129";
+        # jazzSyncUrl = "ws://node205197-env-9764176354321.mircloud.host:11129";
+        jazzSyncUrl = "ws://127.0.0.1:4200";
         
         # Helper scripts
         setupScripts = ''
@@ -43,29 +44,29 @@
             fi
             
             # Create .env file
-            cat > .env << EOF
-# Jazz Sync Server
-JAZZ_SYNC_URL=${jazzSyncUrl}
+          cat > .env << EOF
+            # Jazz Sync Server
+            JAZZ_SYNC_URL=${jazzSyncUrl}
 
-# Jazz Server Account (generate with: jazz-create-account "Proxy Server")
-JAZE2E_PROXY_SERVER_ACCOUNT=
-JAZZ_PROXY_SERVER_SECRET=
+            # Jazz Server Account (generate with: jazz-create-account "Proxy Server")
+            JAZE2E_PROXY_SERVER_ACCOUNT=
+            JAZZ_PROXY_SERVER_SECRET=
 
-# Jazz Client Account (generate with: jazz-create-account "Proxy Client")
-JAZZ_PROXY_CLIENT_ACCOUNT=
-JAZZ_PROXY_CLIENT_SECRET=
+            # Jazz Client Account (generate with: jazz-create-account "Proxy Client")
+            JAZZ_PROXY_CLIENT_ACCOUNT=
+            JAZZ_PROXY_CLIENT_SECRET=
 
-# Webhook Server
-PORT=3000
-WEBHOOK_URL=http://localhost:3000/proxy-update
+            # Webhook Server
+            PORT=3000
+            WEBHOOK_URL=http://localhost:3000/proxy-update
 
-# Extension ID (will be set after loading modified extension)
-EXTENSION_ID=
+            # Extension ID (will be set after loading modified extension)
+            EXTENSION_ID=
 
-# Node environment
-NODE_ENV=development
-EOF
-            
+            # Node environment
+            NODE_ENV=development
+          EOF
+                        
             echo "✅ Created .env file"
             echo ""
             echo "📋 Next steps:"
