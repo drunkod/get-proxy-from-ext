@@ -10,12 +10,7 @@ import {
 } from "../proxy-schema.js";
 import { generateV2RayConfiguration } from "./v2ray.js";
 
-/**
- * Sets up the inbox listener to handle messages from extensions.
- * @param {object} inbox - The Jazz inbox instance.
- * @param {object} worker - The Jazz worker instance.
- * @param {object} account - The server's Jazz account object.
- */
+// ... (setupInboxListener remains the same) ...
 export function setupInboxListener(inbox, worker, account) {
   inbox.subscribe(ServerBoundMessage, async (message, senderID) => {
     console.log(`\n📥 Received '${message.type}' from: ${senderID}`);
@@ -32,12 +27,22 @@ export function setupInboxListener(inbox, worker, account) {
   });
 }
 
+
 async function handleRegistration(message, senderID, account) {
   console.log(`   Extension registered: ${message.extensionId}`);
-  account.root.connectedExtensions.set(message.extensionId, senderID);
-  await account.root.connectedExtensions.waitForSync();
+  
+  // FIX: Parse the JSON string before updating
+  const connections = JSON.parse(account.root.connectedExtensions || "{}");
+  
+  // Add new connection
+  connections[message.extensionId] = senderID;
+  
+  // FIX: Save back as a JSON string
+  account.root.connectedExtensions = JSON.stringify(connections);
+  await account.root.waitForSync();
 }
 
+// ... (handleProxyPush remains the same) ...
 async function handleProxyPush(message, worker, account) {
   console.log(`   Proxy update from: ${message.extensionId}`);
   const servers = parseServers(message.servers);

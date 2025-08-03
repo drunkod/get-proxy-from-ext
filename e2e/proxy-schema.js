@@ -52,7 +52,7 @@ export const ServerAccountRoot = co.map({
   latestConfig: co.optional(ProxyConfig),
   v2rayConfigs: co.list(V2RayConfig),
   stats: co.optional(StatsSchema),
-  connectedExtensions: co.optional(co.map({})), // Simple empty map for dynamic key-value pairs
+  connectedExtensions: z.string().optional(),
 });
 
 export const ClientAccountRoot = co.map({

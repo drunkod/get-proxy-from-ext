@@ -17,11 +17,6 @@ function sleep(ms) {
   return new Promise(resolve => setTimeout(resolve, ms));
 }
 
-/**
- * Initializes and returns the Jazz server account worker.
- * It will retry connecting to the sync server if it's not immediately available.
- * @returns {Promise<{worker: object, account: object, inbox: object}>}
- */
 export async function initializeServerAccount() {
   const maxRetries = 15;
   const retryDelay = 2000; // 2 seconds
@@ -43,7 +38,8 @@ export async function initializeServerAccount() {
           configs: co.list(ProxyConfig).create([], { owner: worker }),
           v2rayConfigs: co.list(V2RayConfig).create([], { owner: worker }),
           stats: StatsSchema.create({ totalUpdates: 0, totalProxiesEverSeen: 0 }, { owner: worker }),
-          connectedExtensions: co.map({}).create({}, { owner: worker }),
+          // You can now omit the optional 'connectedExtensions' field
+          // It will correctly be initialized as 'undefined
         }, { owner: worker });
         await account.waitForSync();
         console.log("✅ New account root initialized.");
@@ -60,7 +56,8 @@ export async function initializeServerAccount() {
       });
 
       if (!account.root.connectedExtensions) {
-        account.root.connectedExtensions = co.map({}).create({}, { owner: worker });
+        // FIX: Ensure it's initialized as an empty JSON string if missing
+        account.root.connectedExtensions = "{}";
         await account.root.waitForSync();
       }
 
@@ -73,7 +70,9 @@ export async function initializeServerAccount() {
       console.log(`✅ Server connected to sync service on attempt ${attempt}.`);
       console.log(`   Account ID: ${worker.id}`);
       console.log(`   Total configs: ${account.root.configs?.length || 0}`);
-      console.log(`   Connected extensions: ${account.root.connectedExtensions?.size || 0}`);
+      // FIX: Parse the string to get the count
+      const connections = JSON.parse(account.root.connectedExtensions || "{}");
+      console.log(`   Connected extensions: ${Object.keys(connections).length}`);
 
       return { worker, account, inbox };
 

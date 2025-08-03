@@ -14,7 +14,9 @@ async function main() {
   // Periodic tasks for monitoring and cleanup
   setInterval(async () => {
     console.log('\n📊 Server Status:');
-    console.log(`   Connected extensions: ${account.root.connectedExtensions?.size || 0}`);
+    // FIX: Parse the string to get the count
+    const connections = JSON.parse(account.root.connectedExtensions || "{}");
+    console.log(`   Connected extensions: ${Object.keys(connections).length}`);
 
     if (account.root.latestConfig) {
       const summary = generateProxySummary(account.root.latestConfig.servers);

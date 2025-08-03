@@ -4,3 +4,5 @@ hide-me-Chrome-Chrome.zip
 logs
 sync-db
 *.log
+logs/jazz-proxy-combined.log
+.env
