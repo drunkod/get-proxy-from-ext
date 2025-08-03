@@ -42,7 +42,7 @@ export const ProxyUpdatePush = co.map({
 
 // All possible messages the server can receive
 export const ServerBoundMessage = co.discriminatedUnion("type", [
-  ExtensionRegistration,
+  ExtensionRegistration, // <-- FIX: Add ExtensionRegistration to the union
   ProxyUpdatePush,
 ]);
 
