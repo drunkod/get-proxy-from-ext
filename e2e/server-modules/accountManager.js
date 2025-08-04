@@ -1,7 +1,7 @@
 // e2e/server-modules/accountManager.js
 import { startWorker } from "jazz-tools/worker";
 import { WebSocket } from "ws";
-import { co } from "jazz-tools";
+import { co, Group } from "jazz-tools"; // <-- Import Group
 import {
   ProxyServerAccount,
   ServerAccountRoot,
@@ -32,17 +32,34 @@ export async function initializeServerAccount() {
 
       const account = await worker.ensureLoaded({ resolve: { profile: true } });
 
+      // Declare rootGroup outside the if/else block
+      let rootGroup;
+
       if (!account.root) {
         console.log("🔧 Root not found. Initializing new account root...");
+
+        // 1. Create a group to own all the root data.
+        rootGroup = Group.create({ owner: worker });
+
+        // 2. Make this group publicly readable.
+        rootGroup.addMember("everyone", "reader");
+        await rootGroup.waitForSync();
+        console.log("✅ Created and secured root data group for public read access.");
+
+        // 3. Create the root object and all nested objects with the new group as the owner.
         account.root = ServerAccountRoot.create({
-          configs: co.list(ProxyConfig).create([], { owner: worker }),
-          v2rayConfigs: co.list(V2RayConfig).create([], { owner: worker }),
-          stats: StatsSchema.create({ totalUpdates: 0, totalProxiesEverSeen: 0 }, { owner: worker }),
-          // You can now omit the optional 'connectedExtensions' field
-          // It will correctly be initialized as 'undefined
-        }, { owner: worker });
+          configs: co.list(ProxyConfig).create([], { owner: rootGroup }),
+          v2rayConfigs: co.list(V2RayConfig).create([], { owner: rootGroup }),
+          stats: StatsSchema.create({ totalUpdates: 0, totalProxiesEverSeen: 0 }, { owner: rootGroup }),
+          connectedExtensions: "{}", // Initialize as an empty JSON string
+        }, { owner: rootGroup }); // <-- Set the group as the owner of the root
+
         await account.waitForSync();
-        console.log("✅ New account root initialized.");
+        console.log("✅ New account root initialized and owned by public group.");
+      } else {
+        // If root already exists, get its owner group to pass to other modules
+        await account.ensureLoaded({ resolve: { root: true }});
+        rootGroup = account.root._owner;
       }
 
       await account.root.ensureLoaded({
@@ -55,26 +72,24 @@ export async function initializeServerAccount() {
         }
       });
 
-      if (!account.root.connectedExtensions) {
-        // FIX: Ensure it's initialized as an empty JSON string if missing
-        account.root.connectedExtensions = "{}";
-        await account.root.waitForSync();
-      }
-
+      // Make profile publicly readable as well
       const profileGroup = account.profile._owner;
-      if (profileGroup.getRoleOf("everyone") !== "reader") {
-        profileGroup.addMember("everyone", "reader");
-        await profileGroup.waitForSync();
+      if (profileGroup && typeof profileGroup.addMember === 'function') {
+        if (profileGroup.getRoleOf("everyone") !== "reader") {
+          profileGroup.addMember("everyone", "reader");
+          await profileGroup.waitForSync();
+          console.log("✅ Granted public read access to profile");
+        }
       }
 
       console.log(`✅ Server connected to sync service on attempt ${attempt}.`);
       console.log(`   Account ID: ${worker.id}`);
       console.log(`   Total configs: ${account.root.configs?.length || 0}`);
-      // FIX: Parse the string to get the count
       const connections = JSON.parse(account.root.connectedExtensions || "{}");
       console.log(`   Connected extensions: ${Object.keys(connections).length}`);
 
-      return { worker, account, inbox };
+      // Pass the rootGroup for use in other modules
+      return { worker, account, inbox, rootGroup };
 
     } catch (error) {
       if (error.message.includes('ECONNREFUSED')) {
@@ -89,3 +104,5 @@ export async function initializeServerAccount() {
 
   throw new Error(`❌ Could not connect to the sync server after ${maxRetries} attempts.`);
 }
+
+// The makeFieldsPublic helper function is no longer needed and can be removed.

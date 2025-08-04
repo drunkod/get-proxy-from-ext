@@ -5,9 +5,13 @@ import { V2RayConfig, parseServers, getValidServers } from "../proxy-schema.js";
  * Generates and saves a V2Ray configuration based on the latest valid proxy servers.
  * @param {object} worker - The Jazz worker instance.
  * @param {object} account - The server's Jazz account object.
+ * @param {object} rootGroup - The public group that owns the data.
  */
-export async function generateV2RayConfiguration(worker, account) {
-  if (!account.root.latestConfig) return;
+export async function generateV2RayConfiguration(worker, account, rootGroup) {
+  if (!account.root.latestConfig) {
+      console.log("   ⚠️ No latestConfig found, skipping V2Ray generation.");
+      return;
+  };
 
   const servers = parseServers(account.root.latestConfig.servers);
   const validServers = getValidServers(servers);
@@ -43,12 +47,13 @@ export async function generateV2RayConfiguration(worker, account) {
     });
   }
 
+  // CRITICAL FIX: Create the V2RayConfig with the public rootGroup as the owner
   const v2rayConfigRecord = V2RayConfig.create({
     generatedAt: new Date().toISOString(),
     validProxies: Object.keys(validServers).length,
     configJson: JSON.stringify(v2rayConfig, null, 2),
     serversList: JSON.stringify(Object.values(validServers)),
-  }, { owner: worker });
+  }, { owner: rootGroup }); // <-- USE THE PUBLIC GROUP
 
   account.root.v2rayConfigs.push(v2rayConfigRecord);
   await account.root.v2rayConfigs.waitForSync();

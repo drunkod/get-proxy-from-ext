@@ -6,4 +6,4 @@ import { setupEventListeners } from "./modules/eventListeners.js";
 setupEventListeners();
 
 // Initialize the Jazz connection when the extension is loaded.
-initializeJazz();
+initializeJazz().catch(err => console.error('[Extension] Initial Jazz initialization failed:', err));

@@ -1,5 +1,5 @@
 // e2e/extension-src/modules/eventListeners.js
-import { initializeJazz, pushProxyUpdate, getJazzStatus } from "./jazzService.js";
+import { initializeJazz, pushProxyUpdate, getJazzStatus, fetchV2RayConfigs, disconnectJazz } from "./jazzService.js";
 
 /**
  * Sets up all Chrome event listeners for the extension.
@@ -27,20 +27,49 @@ export function setupEventListeners() {
 
     // Handle messages from the options page or other parts of the extension
     chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
-        switch (request.type) {
-            case 'CONFIGURE_JAZZ':
-                chrome.storage.local.set({ jazzConfig: request.config }, () => {
-                    initializeJazz().then(() => sendResponse({ success: true }));
-                });
-                return true; // Indicates an asynchronous response
+        console.log(`[Extension] Received message: ${request.type}`, { request, sender: sender?.tab?.url || "background" });
 
-            case 'GET_JAZZ_STATUS':
-                sendResponse(getJazzStatus());
-                break;
+        const messageHandlers = {
+            'CONFIGURE_JAZZ': async (request) => {
+                console.log('[Extension] Configuring Jazz...');
+                await new Promise(resolve => chrome.storage.local.set({ jazzConfig: request.config }, resolve));
+                return await initializeJazz();
+            },
+            'DISCONNECT_JAZZ': async () => {
+                console.log('[Extension] Disconnecting Jazz...');
+                await disconnectJazz();
+                return { success: true };
+            },
+            'GET_JAZZ_STATUS': () => {
+                return getJazzStatus();
+            },
+            'FORCE_PUSH': async () => {
+                console.log('[Extension] Force pushing proxy update...');
+                await pushProxyUpdate(true);
+                return { success: true };
+            },
+            'FETCH_V2RAY_CONFIGS': async () => {
+                console.log('[Extension] Fetching V2Ray configs...');
+                return await fetchV2RayConfigs();
+            }
+        };
 
-            case 'FORCE_PUSH':
-                pushProxyUpdate(true).then(() => sendResponse({ success: true }));
-                return true; // Indicates an asynchronous response
+        const handler = messageHandlers[request.type];
+
+        if (handler) {
+            (async () => {
+                try {
+                    const response = await handler(request);
+                    console.log(`[Extension] Responding to ${request.type}:`, response);
+                    sendResponse(response);
+                } catch (error) {
+                    console.error(`[Extension] Error handling message ${request.type}:`, error);
+                    sendResponse({ success: false, error: error.message });
+                }
+            })();
+            return true; // Indicates an asynchronous response
+        } else {
+            console.warn(`[Extension] Unhandled message type: ${request.type}`);
         }
     });
 }
