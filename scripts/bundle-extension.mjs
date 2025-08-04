@@ -8,7 +8,7 @@ const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
 const entryPoint = path.join(__dirname, '../e2e/extension-src/background.js');
-const outfile = path.join(__dirname, '../.modified-extension/bundled-background.js');
+const outfile = path.join(__dirname, '../.modified-extension/jazz-integration.js');
 
 console.log('📦 Bundling extension background script...');
 

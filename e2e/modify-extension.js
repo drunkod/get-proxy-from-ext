@@ -33,18 +33,30 @@ async function modifyExtension() {
     process.exit(1);
   }
 
-  // 4. Replace background script
+  // 4. INJECT the background script instead of replacing
   const manifestPath = path.join(MODIFIED_DIR, 'manifest.json');
   const manifest = JSON.parse(fs.readFileSync(manifestPath, 'utf8'));
-  
-  const bgScript = manifest.background?.service_worker ||
-                   manifest.background?.scripts?.[0] || 'main.js';
-  
-  const bundledPath = path.join(MODIFIED_DIR, 'bundled-background.js');
-  const targetPath = path.join(MODIFIED_DIR, bgScript);
-  
-  fs.renameSync(bundledPath, targetPath);
-  console.log(`✅ Replaced ${bgScript} with bundled version`);
+
+  const bgScriptPath = manifest.background?.service_worker ||
+                     manifest.background?.scripts?.[0] || 'main.js';
+
+  const targetPath = path.join(MODIFIED_DIR, bgScriptPath);
+
+  // Read the original script's content
+  const originalScriptContent = fs.readFileSync(targetPath, 'utf8');
+
+  // Prepend the import statement
+  const modifiedScriptContent = `try {
+  importScripts('jazz-integration.js');
+} catch (e) {
+  console.error('Failed to load Jazz integration:', e);
+}
+
+${originalScriptContent}`;
+
+  // Write the modified content back
+  fs.writeFileSync(targetPath, modifiedScriptContent);
+  console.log(`✅ Injected jazz-integration.js into ${bgScriptPath}`);
 
   // 5. Add options page
   const optionsHtml = fs.readFileSync(
