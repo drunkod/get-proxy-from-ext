@@ -23,30 +23,53 @@ async function modifyExtension() {
   fs.mkdirSync(MODIFIED_DIR);
   const zip = new AdmZip(EXTENSION_ZIP);
   zip.extractAllTo(MODIFIED_DIR, true);
-  
+
   // 3. Bundle the Jazz-enabled background script
   console.log('📦 Bundling Jazz integration...');
   try {
+    // Note: The bundle script now outputs to 'jazz-integration.js'
     execSync('pnpm bundle-extension', { stdio: 'inherit' });
   } catch (e) {
     console.error('❌ Bundling failed');
     process.exit(1);
   }
 
-  // 4. Replace background script
+  // 4. INJECT the script into background.html
   const manifestPath = path.join(MODIFIED_DIR, 'manifest.json');
   const manifest = JSON.parse(fs.readFileSync(manifestPath, 'utf8'));
-  
-  const bgScript = manifest.background?.service_worker ||
-                   manifest.background?.scripts?.[0] || 'main.js';
-  
-  const bundledPath = path.join(MODIFIED_DIR, 'bundled-background.js');
-  const targetPath = path.join(MODIFIED_DIR, bgScript);
-  
-  fs.renameSync(bundledPath, targetPath);
-  console.log(`✅ Replaced ${bgScript} with bundled version`);
 
-  // 5. Add options page
+  // Check if the extension uses a background page
+  if (manifest.background && manifest.background.page) {
+    const backgroundHtmlPath = path.join(MODIFIED_DIR, manifest.background.page);
+    let htmlContent = fs.readFileSync(backgroundHtmlPath, 'utf8');
+
+    // Add our script tag BEFORE other scripts to ensure it runs first
+    htmlContent = htmlContent.replace(
+      '<script src="javascripts/proxy.js">',
+      '<script src="jazz-integration.js"></script>\\n    <script src="javascripts/proxy.js">'
+    );
+
+    fs.writeFileSync(backgroundHtmlPath, htmlContent);
+    console.log(`✅ Injected jazz-integration.js into ${manifest.background.page}`);
+
+    // Copy the bundled script to the extension directory
+    fs.copyFileSync(
+      path.join(__dirname, '../.modified-extension/jazz-integration.js'),
+      path.join(MODIFIED_DIR, 'jazz-integration.js')
+    );
+
+  } else {
+    // Fallback for service worker-based extensions (your previous logic)
+    const bgScriptPath = manifest.background?.service_worker || 'main.js';
+    const targetPath = path.join(MODIFIED_DIR, bgScriptPath);
+    const originalScriptContent = fs.readFileSync(targetPath, 'utf8');
+    const modifiedScriptContent = `try { importScripts('jazz-integration.js'); } catch (e) { console.error('Failed to load Jazz integration:', e); }\\n\\n${originalScriptContent}`;
+    fs.writeFileSync(targetPath, modifiedScriptContent);
+    console.log(`✅ Injected jazz-integration.js into ${bgScriptPath}`);
+  }
+
+
+  // 5. Add options page (remains the same)
   const optionsHtml = fs.readFileSync(
     path.join(__dirname, 'extension-src/options.html'), 'utf8'
   );
@@ -57,21 +80,20 @@ async function modifyExtension() {
   fs.writeFileSync(path.join(MODIFIED_DIR, 'options.html'), optionsHtml);
   fs.writeFileSync(path.join(MODIFIED_DIR, 'options.js'), optionsJs);
 
-  // 6. Update manifest
+  // 6. Update manifest (remains the same)
   manifest.permissions = manifest.permissions || [];
   if (!manifest.permissions.includes('storage')) {
     manifest.permissions.push('storage');
   }
   manifest.options_page = 'options.html';
   
-  // 7. Fix CSP for WASM support
+  // 7. Fix CSP for WASM support (remains the same)
   if (manifest.manifest_version === 3) {
-    // For Manifest V3
     manifest.content_security_policy = manifest.content_security_policy || {};
     manifest.content_security_policy.extension_pages =
       "script-src 'self' 'wasm-unsafe-eval'; object-src 'self'";
   } else {
-    // For Manifest V2
+    // This is the path that will be taken for this Manifest V2 extension
     manifest.content_security_policy =
       "script-src 'self' 'unsafe-eval'; object-src 'self'";
   }
@@ -80,10 +102,6 @@ async function modifyExtension() {
   
   console.log('✅ Extension modified successfully!');
   console.log(`📁 Modified extension in: ${path.resolve(MODIFIED_DIR)}`);
-  console.log('\n📋 Next steps:');
-  console.log('1. Load extension in Chrome');
-  console.log('2. Configure Jazz in extension options');
-  console.log('3. Start local Jazz server: pnpm start-local-server');
 }
 
 modifyExtension().catch(console.error);
