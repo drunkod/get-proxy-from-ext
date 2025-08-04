@@ -6,6 +6,7 @@ import {
   ClientAccountRoot,
   ExtensionRegistration,
   ProxyUpdatePush,
+  ProxyServerAccount,
 } from "../../proxy-schema.js";
 
 // Module-level state for the Jazz connection
@@ -21,6 +22,7 @@ export async function initializeJazz() {
 
   if (jazzWorker) {
     console.log("[Jazz] Stopping previous worker...");
+    jazzWorker.stop(); // <-- FIX: Properly stop the existing worker.
     jazzWorker = null;
     jazzSender = null;
   }
@@ -59,14 +61,79 @@ export async function initializeJazz() {
     console.log("[Jazz] ✅ Initialized successfully");
     await registerWithServer();
     await pushProxyUpdate(true); // Force push on startup
+    return { success: true };
 
   } catch (error) {
     console.error("[Jazz] ❌ Initialization failed:", error);
-    // Reset state on failure
     jazzWorker = null;
     jazzSender = null;
+    return { success: false, error: error.message };
   }
 }
+
+/**
+ * Disconnects the Jazz worker.
+ */
+export async function disconnectJazz() {
+    if (jazzWorker) {
+        jazzWorker.stop();
+        jazzWorker = null;
+        jazzSender = null;
+    }
+    await chrome.storage.local.remove('jazzConfig');
+    console.log('[Jazz] Disconnected.');
+}
+
+
+/**
+ * Fetches V2Ray configurations directly from the server account.
+ */
+export async function fetchV2RayConfigs() {
+    if (!jazzWorker) {
+        return { error: 'Not connected to Jazz. Please configure and connect on the options page.' };
+    }
+
+    try {
+        const { jazzConfig } = await chrome.storage.local.get('jazzConfig');
+        if (!jazzConfig || !jazzConfig.serverAccountId) {
+            return { error: 'Server Account ID is not configured.' };
+        }
+
+        console.log(`[Jazz] Loading server account: ${jazzConfig.serverAccountId}`);
+        const serverAccount = await jazzWorker.load(jazzConfig.serverAccountId, ProxyServerAccount);
+
+        await serverAccount.ensureLoaded({
+            resolve: {
+                root: {
+                    v2rayConfigs: true,
+                    stats: true
+                }
+            }
+        });
+
+        if (!serverAccount.root || serverAccount.root.v2rayConfigs.length === 0) {
+            return { error: 'No V2Ray configuration data found on the server yet.' };
+        }
+
+        const latestV2Ray = serverAccount.root.v2rayConfigs[serverAccount.root.v2rayConfigs.length - 1];
+
+        return {
+            latestConfig: latestV2Ray ? {
+                generatedAt: latestV2Ray.generatedAt,
+                validProxies: latestV2Ray.validProxies,
+                config: JSON.parse(latestV2Ray.configJson),
+                servers: JSON.parse(latestV2Ray.serversList)
+            } : null,
+            totalConfigs: serverAccount.root.v2rayConfigs.length,
+            stats: serverAccount.root.stats
+        };
+
+    } catch (error) {
+        console.error('[Jazz] ❌ Failed to fetch V2Ray configs:', error);
+        return { error: error.message };
+    }
+}
+
 
 /**
  * Registers the extension with the server.
