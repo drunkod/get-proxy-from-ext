@@ -1,0 +1,41 @@
+{
+  "name": "prismai",
+  "version": "1.0.0",
+  "description": "Proxy manager with Jazz integration",
+  "type": "module",
+  "scripts": {
+    "modify-extension": "node e2e/modify-extension.js",
+    "bundle-extension": "node scripts/bundle-extension.mjs",
+    "start-server": "node e2e/proxy-server.js",
+    "view-history": "node e2e/view-proxy-history.js",
+    "test-webhook": "echo 'Webhooks no longer used'",
+    "setup-all": "pnpm modify-extension",
+    "start-local-server": "node e2e/start-local-jazz-server.js",
+    "start-mock-server": "node e2e/mock-jazz-server.js",
+    "setup-local": "pnpm modify-extension && pnpm start-local-server"
+  },
+  "keywords": [
+    "proxy",
+    "v2ray",
+    "jazz",
+    "webhook"
+  ],
+  "author": "",
+  "license": "MIT",
+  "dependencies": {
+    "jazz-tools": "^0.16.3",
+    "express": "^4.18.2",
+    "cors": "^2.8.5",
+    "adm-zip": "^0.5.10",
+    "ws": "^8.18.3",
+    "node-fetch": "^3.3.2",
+    "dotenv": "^16.3.1",
+    "jazz-run": "^0.16.3"
+  },
+  "devDependencies": {
+    "esbuild": "^0.19.0"
+  },
+  "engines": {
+    "node": ">=20.0.0"
+  }
+}

@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Jazz Proxy Configuration</title>
+  <style>
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      max-width: 800px;
+      margin: 40px auto;
+      padding: 20px;
+      background: #f5f5f5;
+    }
+    .container {
+      background: white;
+      padding: 30px;
+      border-radius: 8px;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+      margin-bottom: 20px;
+    }
+    h1 { margin-top: 0; color: #333; }
+    h2 { color: #555; }
+    .server-picker { display: flex; gap: 10px; margin-bottom: 20px; }
+    .server-option { flex: 1; padding: 15px; border: 2px solid #ddd; border-radius: 4px; cursor: pointer; text-align: center; }
+    .server-option.selected { border-color: #4CAF50; background: #f0f8f0; }
+    .server-option.offline { opacity: 0.5; cursor: not-allowed; }
+    .server-status { font-size: 12px; margin-top: 5px; }
+    .form-group { margin-bottom: 20px; }
+    label { display: block; margin-bottom: 5px; font-weight: 500; color: #555; }
+    input { width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 4px; font-size: 14px; box-sizing: border-box; }
+    input:focus { outline: none; border-color: #4CAF50; }
+    button { background: #4CAF50; color: white; padding: 12px 24px; border: none; border-radius: 4px; font-size: 16px; cursor: pointer; margin-right: 10px; }
+    button:hover { background: #45a049; }
+    button:disabled { background: #ccc; cursor: not-allowed; }
+    .status { margin-top: 20px; padding: 15px; border-radius: 4px; font-weight: 500; }
+    .status.connected { background: #d4edda; color: #155724; }
+    .status.disconnected { background: #f8d7da; color: #721c24; }
+    .info { background: #e3f2fd; color: #1565c0; padding: 15px; border-radius: 4px; margin-bottom: 20px; font-size: 14px; }
+    .warning { background: #fff3cd; color: #856404; padding: 10px; border-radius: 4px; margin-bottom: 10px; font-size: 13px; }
+    #viewerToggle { background: #607d8b; }
+    #viewerContainer { border-top: 2px solid #eee; padding-top: 20px; }
+    .viewer-header { margin-bottom: 20px; }
+    .viewer-title { display: flex; align-items: center; gap: 15px;}
+    .stats { display: flex; gap: 20px; margin-top: 15px; }
+    .stat { background: #f0f0f0; padding: 10px 15px; border-radius: 4px; text-align: center; flex: 1; }
+    .stat-label { font-size: 12px; color: #666; }
+    .stat-value { font-size: 20px; font-weight: bold; color: #4CAF50; }
+    .config-section { margin-bottom: 20px; }
+    .section-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px; }
+    #refreshV2ray { font-size: 14px; padding: 5px 10px; background: #90a4ae; }
+    .config-content { background: #2d2d2d; color: #f1f1f1; border: 1px solid #ddd; border-radius: 4px; padding: 15px; font-family: 'Consolas', 'Monaco', monospace; font-size: 13px; max-height: 400px; overflow-y: auto; }
+    .servers-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); gap: 15px; }
+    .server-card { background: #f8f8f8; border: 1px solid #ddd; border-radius: 4px; padding: 15px; font-size: 13px; }
+    .server-name { font-weight: bold; color: #4CAF50; margin-bottom: 5px; }
+    .viewer-loading, .viewer-error { text-align: center; padding: 40px; color: #666; font-size: 14px; }
+    .viewer-error { background: #fee; color: #c33; padding: 15px; border-radius: 4px; }
+    #copyBtn { font-size: 14px; padding: 8px 16px; }
+    #toast { position: fixed; bottom: 20px; right: 20px; background: #4CAF50; color: white; padding: 15px 20px; border-radius: 4px; box-shadow: 0 2px 10px rgba(0,0,0,0.2); display: none; }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>🎷 Jazz Proxy Configuration</h1>
+    <!-- ... Rest of the form ... -->
+     <div class="info">
+      Connect to Jazz for real-time proxy synchronization.
+      The extension will automatically push proxy updates to the server.
+    </div>
+    <div id="serverWarning" class="warning" style="display:none">
+      ⚠️ Remote server appears to be offline. Consider using local server.
+    </div>
+    <div class="server-picker">
+      <div class="server-option" id="localServer" data-url="ws://127.0.0.1:4200">
+        <strong>Local Server</strong>
+        <div class="server-status" id="localStatus">Checking...</div>
+      </div>
+      <div class="server-option" id="remoteServer" data-url="ws://node205197-env-9764176354321.mircloud.host:11129">
+        <strong>Remote Server</strong>
+        <div class="server-status" id="remoteStatus">Checking...</div>
+      </div>
+    </div>
+    <div class="form-group">
+      <label>Jazz Sync Server:</label>
+      <input type="text" id="syncServer" value="ws://127.0.0.1:4200">
+    </div>
+    <div class="form-group">
+      <label>Extension Account ID:</label>
+      <input type="text" id="accountId" placeholder="Enter from JAZZ_PROXY_CLIENT_ACCOUNT">
+    </div>
+    <div class="form-group">
+      <label>Extension Account Secret:</label>
+      <input type="password" id="accountSecret" placeholder="Enter from JAZZ_PROXY_CLIENT_SECRET">
+    </div>
+    <div class="form-group">
+      <label>Server Account ID:</label>
+      <input type="text" id="serverAccountId" placeholder="Enter from JAZZ_PROXY_SERVER_ACCOUNT">
+    </div>
+    <button id="connect">Connect</button>
+    <button id="disconnect" style="display:none">Disconnect</button>
+    <button id="forcePush">Force Push</button>
+    <button id="testConnection">Test Connection</button>
+    <div id="status" class="status disconnected">
+      <span id="statusText">Not connected</span>
+    </div>
+  </div>
+
+  <div class="container">
+    <button id="viewerToggle">Show V2Ray Config Viewer</button>
+    <div id="viewerContainer" style="display:none; margin-top:20px;">
+      <div class="viewer-header">
+        <div class="viewer-title">
+            <h2>V2Ray Config Viewer</h2>
+            <button id="refreshV2ray">🔄 Refresh</button>
+        </div>
+        <div class="stats">
+          <div class="stat"><div class="stat-label">Total Builds</div><div class="stat-value" id="totalConfigs">-</div></div>
+          <div class="stat"><div class="stat-label">Active Proxies</div><div class="stat-value" id="validProxies">-</div></div>
+          <div class="stat"><div class="stat-label">Last Updated</div><div class="stat-value" id="lastUpdate">-</div></div>
+        </div>
+      </div>
+      <div id="viewerLoading" class="viewer-loading">Loading...</div>
+      <div id="viewerError" class="viewer-error" style="display:none;"></div>
+      <div id="viewerContent" style="display:none;">
+        <div class="config-section">
+          <div class="section-header"><h3>V2Ray Config JSON</h3><button id="copyBtn">Copy</button></div>
+          <pre id="configContent" class="config-content"></pre>
+        </div>
+        <div class="config-section">
+          <div class="section-header"><h3>Active Proxy Servers</h3></div>
+          <div id="serversGrid" class="servers-grid"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div id="toast">✅ Copied to clipboard!</div>
+  <script src="options.js"></script>
+</body>
+</html>
