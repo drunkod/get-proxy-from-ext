@@ -63,7 +63,10 @@ async function modifyExtension() {
     const bgScriptPath = manifest.background?.service_worker || 'main.js';
     const targetPath = path.join(MODIFIED_DIR, bgScriptPath);
     const originalScriptContent = fs.readFileSync(targetPath, 'utf8');
-    const modifiedScriptContent = `try { importScripts('jazz-integration.js'); } catch (e) { console.error('Failed to load Jazz integration:', e); }\\n\\n${originalScriptContent}`;
+    const modifiedScriptContent = `
+    try { importScripts('jazz-integration.js'); } 
+    catch (e) { console.error('Failed to load Jazz integration:', e); } 
+    ${originalScriptContent} `;
     fs.writeFileSync(targetPath, modifiedScriptContent);
     console.log(`✅ Injected jazz-integration.js into ${bgScriptPath}`);
   }

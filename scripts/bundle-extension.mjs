@@ -23,23 +23,26 @@ try {
     external: ['chrome'],
     define: {
       'process.env.NODE_ENV': '"production"',
-      'global': 'self'
+      'global': 'self',
+      'window': 'self'  // Add this to replace window references with self
     },
     alias: {
       'ws': path.join(__dirname, '../scripts/ws-polyfill.js')
     },
-    // Add banner to preserve built-in globals
+    // Add banner to preserve built-in globals in service worker context
     banner: {
       js: `
 (function() {
   // Preserve built-in globals that might be overridden by the extension
-  const _Proxy = window.Proxy;
-  const _Promise = window.Promise;
-  const _Object = window.Object;
-  const _Array = window.Array;
-  const _Map = window.Map;
-  const _Set = window.Set;
-
+  // In service workers, we use 'self' instead of 'window'
+  const globalThis = self;
+  const _Proxy = globalThis.Proxy;
+  const _Promise = globalThis.Promise;
+  const _Object = globalThis.Object;
+  const _Array = globalThis.Array;
+  const _Map = globalThis.Map;
+  const _Set = globalThis.Set;
+  
   // Run Jazz in its own scope with preserved globals
   (function(Proxy, Promise, Object, Array, Map, Set) {
 `,

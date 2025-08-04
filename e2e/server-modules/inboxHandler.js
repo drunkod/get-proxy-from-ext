@@ -10,7 +10,6 @@ import {
 } from "../proxy-schema.js";
 import { generateV2RayConfiguration } from "./v2ray.js";
 
-// ... (setupInboxListener remains the same) ...
 export function setupInboxListener(inbox, worker, account) {
   inbox.subscribe(ServerBoundMessage, async (message, senderID) => {
     console.log(`\n📥 Received '${message.type}' from: ${senderID}`);
@@ -27,7 +26,6 @@ export function setupInboxListener(inbox, worker, account) {
   });
 }
 
-
 async function handleRegistration(message, senderID, account) {
   console.log(`   Extension registered: ${message.extensionId}`);
   
@@ -42,7 +40,6 @@ async function handleRegistration(message, senderID, account) {
   await account.root.waitForSync();
 }
 
-// ... (handleProxyPush remains the same) ...
 async function handleProxyPush(message, worker, account) {
   console.log(`   Proxy update from: ${message.extensionId}`);
   const servers = parseServers(message.servers);
@@ -69,7 +66,13 @@ async function handleProxyPush(message, worker, account) {
   await account.root.waitForSync();
   console.log(`   ✅ Saved ${Object.keys(servers).length} servers`);
 
-  if (needsUpdate(account.root.latestConfig)) {
+  // Generate V2Ray config on every push or if no configs exist
+  const shouldGenerateV2Ray = 
+    account.root.v2rayConfigs.length === 0 || // No configs yet
+    needsUpdate(account.root.latestConfig) ||  // Expired servers
+    true; // Always generate on new push (you can change this logic)
+
+  if (shouldGenerateV2Ray) {
     console.log("   🔧 Generating V2Ray config...");
     await generateV2RayConfiguration(worker, account);
   }
