@@ -1,0 +1,724 @@
+2025-08-01T15:56:39: 
+2025-08-01T15:56:39: 🚀 Proxy webhook server running on http://localhost:3000
+2025-08-01T15:56:39: 📝 Endpoints:
+2025-08-01T15:56:39:    POST /proxy-update - Receive proxy updates
+2025-08-01T15:56:39:    GET  /status       - Server status
+2025-08-01T15:56:39:    GET  /proxy-data   - List saved proxy data
+2025-08-01T15:56:39: 🎷 Initializing Jazz...
+2025-08-01T15:56:40: ✅ Jazz initialized successfully
+2025-08-01T15:58:48: 
+2025-08-01T15:58:48: 📥 Received proxy update at 15:58:48
+2025-08-01T15:58:48:    Extension ID: pfmpjnglponhnamjakafmneiblfjdlen
+2025-08-01T15:58:48:    Servers: automatic, hideme, netherlands, switzerland, usa
+2025-08-01T16:02:20: 
+2025-08-01T16:02:20: 👋 Shutting down gracefully...
+2025-08-01T16:02:23: 
+2025-08-01T16:02:23: 🚀 Proxy webhook server running on http://localhost:3000
+2025-08-01T16:02:23: 📝 Endpoints:
+2025-08-01T16:02:23:    POST /proxy-update - Receive proxy updates
+2025-08-01T16:02:23:    GET  /status       - Server status
+2025-08-01T16:02:23:    GET  /proxy-data   - List saved proxy data
+2025-08-01T16:02:23: 🎷 Initializing Jazz...
+2025-08-01T16:02:25: ✅ Jazz initialized successfully
+2025-08-01T16:04:15: 
+2025-08-01T16:04:15: 📥 Received proxy update at 16:04:15
+2025-08-01T16:04:15:    Extension ID: test-extension-id
+2025-08-01T16:04:15:    Servers: usa, netherlands
+2025-08-01T16:04:17: ✅ Sent to Jazz, response ID: co_zFwpFnisZ5vKfQRPjzT7NtHyYWB
+2025-08-01T16:08:47: 
+2025-08-01T16:08:47: 📥 Received proxy update at 16:08:47
+2025-08-01T16:08:47:    Extension ID: pfmpjnglponhnamjakafmneiblfjdlen
+2025-08-01T16:08:47:    Servers: automatic, hideme, netherlands, switzerland, usa
+2025-08-01T16:08:49: ✅ Sent to Jazz, response ID: co_z7bMc7MehP86gzFLUt5yTevhMck
+2025-08-01T16:09:56: 
+2025-08-01T16:09:56: 👋 Shutting down gracefully...
+2025-08-01T16:09:58: 
+2025-08-01T16:09:58: 🚀 Proxy webhook server running on http://localhost:3000
+2025-08-01T16:09:58: 📝 Endpoints:
+2025-08-01T16:09:58:    POST /proxy-update - Receive proxy updates
+2025-08-01T16:09:58:    GET  /status       - Server status
+2025-08-01T16:09:58:    GET  /proxy-data   - List saved proxy data
+2025-08-01T16:09:58: 🎷 Initializing Jazz...
+2025-08-01T16:10:00: ✅ Jazz initialized successfully
+2025-08-01T16:10:16: 
+2025-08-01T16:10:16: 📥 Received proxy update at 16:10:15
+2025-08-01T16:10:16:    Extension ID: test-extension-id
+2025-08-01T16:10:16:    Servers: usa, netherlands
+2025-08-01T16:10:17: ✅ Sent to Jazz, response ID: co_zJQc9AnTZ9t681XVM8txHoKtjCk
+2025-08-01T16:18:47: 
+2025-08-01T16:18:47: 📥 Received proxy update at 16:18:47
+2025-08-01T16:18:47:    Extension ID: pfmpjnglponhnamjakafmneiblfjdlen
+2025-08-01T16:18:47:    Servers: automatic, hideme, netherlands, switzerland, usa
+2025-08-01T16:18:48: 
+2025-08-01T16:18:48: 📥 Received proxy update at 16:18:48
+2025-08-01T16:18:48:    Extension ID: pfmpjnglponhnamjakafmneiblfjdlen
+2025-08-01T16:18:48:    Servers: automatic, hideme, netherlands, switzerland, usa
+2025-08-01T16:18:48: 
+2025-08-01T16:18:48: 📥 Received proxy update at 16:18:48
+2025-08-01T16:18:48:    Extension ID: pfmpjnglponhnamjakafmneiblfjdlen
+2025-08-01T16:18:48:    Servers: automatic, hideme, netherlands, switzerland, usa
+2025-08-01T16:18:48: 
+2025-08-01T16:18:48: 📥 Received proxy update at 16:18:48
+2025-08-01T16:18:48:    Extension ID: pfmpjnglponhnamjakafmneiblfjdlen
+2025-08-01T16:18:48:    Servers: automatic, hideme, netherlands, switzerland, usa
+2025-08-01T16:18:49: ✅ Sent to Jazz, response ID: co_zhQvZdbvb6px19uRZwVqxqKR2Fo
+2025-08-01T16:18:49: ✅ Sent to Jazz, response ID: co_zJKuHYcUAxC1vRjmsfzgeMXwbgm
+2025-08-01T16:18:49: ✅ Sent to Jazz, response ID: co_z7URKbFTkimdXriu1hFfD9ftZKA
+2025-08-01T16:18:49: ✅ Sent to Jazz, response ID: co_zLb1fiJTiq43xEqFUi743catr3i
+2025-08-01T16:28:48: 
+2025-08-01T16:28:48: 📥 Received proxy update at 16:28:48
+2025-08-01T16:28:48:    Extension ID: pfmpjnglponhnamjakafmneiblfjdlen
+2025-08-01T16:28:48:    Servers: automatic, hideme, netherlands, switzerland, usa
+2025-08-01T16:28:49: ✅ Sent to Jazz, response ID: co_zdqe34CzAFZxpH3RqqoFzfZK8D7
+2025-08-01T16:58:48: 
+2025-08-01T16:58:48: 📥 Received proxy update at 16:58:48
+2025-08-01T16:58:48:    Extension ID: pfmpjnglponhnamjakafmneiblfjdlen
+2025-08-01T16:58:48:    Servers: automatic, hideme, netherlands, switzerland, usa
+2025-08-01T17:08:47: 
+2025-08-01T17:08:47: 📥 Received proxy update at 17:08:47
+2025-08-01T17:08:47:    Extension ID: pfmpjnglponhnamjakafmneiblfjdlen
+2025-08-01T17:08:47:    Servers: automatic, hideme, netherlands, switzerland, usa
+2025-08-01T17:18:48: 
+2025-08-01T17:18:48: 📥 Received proxy update at 17:18:48
+2025-08-01T17:18:48:    Extension ID: pfmpjnglponhnamjakafmneiblfjdlen
+2025-08-01T17:18:48:    Servers: automatic, hideme, netherlands, switzerland, usa
+2025-08-01T17:28:48: 
+2025-08-01T17:28:48: 📥 Received proxy update at 17:28:48
+2025-08-01T17:28:48:    Extension ID: pfmpjnglponhnamjakafmneiblfjdlen
+2025-08-01T17:28:48:    Servers: automatic, hideme, netherlands, switzerland, usa
+2025-08-01T17:38:48: 
+2025-08-01T17:38:48: 📥 Received proxy update at 17:38:48
+2025-08-01T17:38:48:    Extension ID: pfmpjnglponhnamjakafmneiblfjdlen
+2025-08-01T17:38:48:    Servers: automatic, hideme, netherlands, switzerland, usa
+2025-08-01T17:48:48: 
+2025-08-01T17:48:48: 📥 Received proxy update at 17:48:48
+2025-08-01T17:48:48:    Extension ID: pfmpjnglponhnamjakafmneiblfjdlen
+2025-08-01T17:48:48:    Servers: automatic, hideme, netherlands, switzerland, usa
+2025-08-01T17:58:48: 
+2025-08-01T17:58:48: 📥 Received proxy update at 17:58:48
+2025-08-01T17:58:48:    Extension ID: pfmpjnglponhnamjakafmneiblfjdlen
+2025-08-01T17:58:48:    Servers: automatic, hideme, netherlands, switzerland, usa
+2025-08-01T18:08:48: 
+2025-08-01T18:08:48: 📥 Received proxy update at 18:08:48
+2025-08-01T18:08:48:    Extension ID: pfmpjnglponhnamjakafmneiblfjdlen
+2025-08-01T18:08:48:    Servers: automatic, hideme, netherlands, switzerland, usa
+2025-08-01T18:18:48: 
+2025-08-01T18:18:48: 📥 Received proxy update at 18:18:48
+2025-08-01T18:18:48:    Extension ID: pfmpjnglponhnamjakafmneiblfjdlen
+2025-08-01T18:18:48:    Servers: automatic, hideme, netherlands, switzerland, usa
+2025-08-01T18:28:48: 
+2025-08-01T18:28:48: 📥 Received proxy update at 18:28:48
+2025-08-01T18:28:48:    Extension ID: pfmpjnglponhnamjakafmneiblfjdlen
+2025-08-01T18:28:48:    Servers: automatic, hideme, netherlands, switzerland, usa
+2025-08-01T18:38:48: 
+2025-08-01T18:38:48: 📥 Received proxy update at 18:38:48
+2025-08-01T18:38:48:    Extension ID: pfmpjnglponhnamjakafmneiblfjdlen
+2025-08-01T18:38:48:    Servers: automatic, hideme, netherlands, switzerland, usa
+2025-08-01T18:48:47: 
+2025-08-01T18:48:47: 📥 Received proxy update at 18:48:47
+2025-08-01T18:48:47:    Extension ID: pfmpjnglponhnamjakafmneiblfjdlen
+2025-08-01T18:48:47:    Servers: automatic, hideme, netherlands, switzerland, usa
+2025-08-01T18:58:47: 
+2025-08-01T18:58:47: 📥 Received proxy update at 18:58:47
+2025-08-01T18:58:47:    Extension ID: pfmpjnglponhnamjakafmneiblfjdlen
+2025-08-01T18:58:47:    Servers: automatic, hideme, netherlands, switzerland, usa
+2025-08-01T19:08:48: 
+2025-08-01T19:08:48: 📥 Received proxy update at 19:08:48
+2025-08-01T19:08:48:    Extension ID: pfmpjnglponhnamjakafmneiblfjdlen
+2025-08-01T19:08:48:    Servers: automatic, hideme, netherlands, switzerland, usa
+2025-08-01T19:18:48: 
+2025-08-01T19:18:48: 📥 Received proxy update at 19:18:48
+2025-08-01T19:18:48:    Extension ID: pfmpjnglponhnamjakafmneiblfjdlen
+2025-08-01T19:18:48:    Servers: automatic, hideme, netherlands, switzerland, usa
+2025-08-01T19:28:47: 
+2025-08-01T19:28:47: 📥 Received proxy update at 19:28:47
+2025-08-01T19:28:47:    Extension ID: pfmpjnglponhnamjakafmneiblfjdlen
+2025-08-01T19:28:47:    Servers: automatic, hideme, netherlands, switzerland, usa
+2025-08-01T19:38:47: 
+2025-08-01T19:38:47: 📥 Received proxy update at 19:38:47
+2025-08-01T19:38:47:    Extension ID: pfmpjnglponhnamjakafmneiblfjdlen
+2025-08-01T19:38:47:    Servers: automatic, hideme, netherlands, switzerland, usa
+2025-08-01T19:48:48: 
+2025-08-01T19:48:48: 📥 Received proxy update at 19:48:48
+2025-08-01T19:48:48:    Extension ID: pfmpjnglponhnamjakafmneiblfjdlen
+2025-08-01T19:48:48:    Servers: automatic, hideme, netherlands, switzerland, usa
+2025-08-01T19:58:48: 
+2025-08-01T19:58:48: 📥 Received proxy update at 19:58:48
+2025-08-01T19:58:48:    Extension ID: pfmpjnglponhnamjakafmneiblfjdlen
+2025-08-01T19:58:48:    Servers: automatic, hideme, netherlands, switzerland, usa
+2025-08-01T20:08:47: 
+2025-08-01T20:08:47: 📥 Received proxy update at 20:08:47
+2025-08-01T20:08:47:    Extension ID: pfmpjnglponhnamjakafmneiblfjdlen
+2025-08-01T20:08:47:    Servers: automatic, hideme, netherlands, switzerland, usa
+2025-08-01T20:18:49: 
+2025-08-01T20:18:49: 📥 Received proxy update at 20:18:49
+2025-08-01T20:18:49:    Extension ID: pfmpjnglponhnamjakafmneiblfjdlen
+2025-08-01T20:18:49:    Servers: automatic, hideme, netherlands, switzerland, usa
+2025-08-01T20:28:47: 
+2025-08-01T20:28:47: 📥 Received proxy update at 20:28:47
+2025-08-01T20:28:47:    Extension ID: pfmpjnglponhnamjakafmneiblfjdlen
+2025-08-01T20:28:47:    Servers: automatic, hideme, netherlands, switzerland, usa
+2025-08-01T20:38:48: 
+2025-08-01T20:38:48: 📥 Received proxy update at 20:38:48
+2025-08-01T20:38:48:    Extension ID: pfmpjnglponhnamjakafmneiblfjdlen
+2025-08-01T20:38:48:    Servers: automatic, hideme, netherlands, switzerland, usa
+2025-08-01T20:48:48: 
+2025-08-01T20:48:48: 📥 Received proxy update at 20:48:48
+2025-08-01T20:48:48:    Extension ID: pfmpjnglponhnamjakafmneiblfjdlen
+2025-08-01T20:48:48:    Servers: automatic, hideme, netherlands, switzerland, usa
+2025-08-01T20:58:48: 
+2025-08-01T20:58:48: 📥 Received proxy update at 20:58:48
+2025-08-01T20:58:48:    Extension ID: pfmpjnglponhnamjakafmneiblfjdlen
+2025-08-01T20:58:48:    Servers: automatic, hideme, netherlands, switzerland, usa
+2025-08-01T21:08:48: 
+2025-08-01T21:08:48: 📥 Received proxy update at 21:08:48
+2025-08-01T21:08:48:    Extension ID: pfmpjnglponhnamjakafmneiblfjdlen
+2025-08-01T21:08:48:    Servers: automatic, hideme, netherlands, switzerland, usa
+2025-08-01T21:15:28: 
+2025-08-01T21:15:28: 👋 Shutting down gracefully...
+2025-08-01T21:15:32: 
+2025-08-01T21:15:32: 🚀 Proxy webhook server running on http://localhost:3000
+2025-08-01T21:15:32: 📝 Endpoints:
+2025-08-01T21:15:32:    POST /proxy-update - Receive proxy updates
+2025-08-01T21:15:32:    GET  /status       - Server status
+2025-08-01T21:15:32:    GET  /proxy-data   - List saved proxy data
+2025-08-01T21:15:32: 🎷 Initializing Jazz...
+2025-08-01T21:15:34: ✅ Jazz initialized successfully
+2025-08-01T21:17:57: 
+2025-08-01T21:17:57: 📥 Received proxy update at 21:17:57
+2025-08-01T21:17:57:    Extension ID: test-extension-id
+2025-08-01T21:17:57:    Servers: usa, netherlands
+2025-08-01T21:17:58: ✅ Sent to Jazz, response ID: co_zdw3WHh7DBMbDEEb1yYLi8kxQEU
+2025-08-01T21:18:48: 
+2025-08-01T21:18:48: 📥 Received proxy update at 21:18:48
+2025-08-01T21:18:48:    Extension ID: pfmpjnglponhnamjakafmneiblfjdlen
+2025-08-01T21:18:48:    Servers: automatic, hideme, netherlands, switzerland, usa
+2025-08-01T21:18:49: ✅ Sent to Jazz, response ID: co_zLYFLqJEsP8im52CDkGzRaozXce
+2025-08-01T21:28:48: 
+2025-08-01T21:28:48: 📥 Received proxy update at 21:28:48
+2025-08-01T21:28:48:    Extension ID: pfmpjnglponhnamjakafmneiblfjdlen
+2025-08-01T21:28:48:    Servers: automatic, hideme, netherlands, switzerland, usa
+2025-08-01T21:28:49: ✅ Sent to Jazz, response ID: co_zkpd5wJZkFuUgh8AHu5i5j3pQwn
+2025-08-01T21:30:08: 
+2025-08-01T21:30:08: 👋 Shutting down gracefully...
+2025-08-01T21:30:11: 
+2025-08-01T21:30:11: 🚀 Proxy webhook server running on http://localhost:3000
+2025-08-01T21:30:11: 📝 Endpoints:
+2025-08-01T21:30:11:    POST /proxy-update - Receive proxy updates
+2025-08-01T21:30:11:    GET  /status       - Server status
+2025-08-01T21:30:11:    GET  /proxy-data   - List saved proxy data
+2025-08-01T21:30:11: 🎷 Initializing Jazz...
+2025-08-01T21:30:13: ✅ Jazz initialized successfully
+2025-08-01T21:32:53: 
+2025-08-01T21:32:53: 📥 Received proxy update at 21:32:53
+2025-08-01T21:32:53:    Extension ID: test-extension-id
+2025-08-01T21:32:53:    Servers: usa, netherlands
+2025-08-01T21:32:55: ✅ Sent to Jazz, response ID: co_zHCdSakmGs7pbhykJbieL2cnF2a
+2025-08-01T21:35:25: 
+2025-08-01T21:35:25: 📥 Received proxy update at 21:35:25
+2025-08-01T21:35:25:    Extension ID: test-extension-id
+2025-08-01T21:35:25:    Servers: usa, netherlands
+2025-08-01T21:35:26: ✅ Sent to Jazz, response ID: co_zErrGohbumKuiFdmZuHgtGLScBu
+2025-08-01T21:38:48: 
+2025-08-01T21:38:48: 📥 Received proxy update at 21:38:48
+2025-08-01T21:38:48:    Extension ID: pfmpjnglponhnamjakafmneiblfjdlen
+2025-08-01T21:38:48:    Servers: automatic, hideme, netherlands, switzerland, usa
+2025-08-01T21:38:49: ✅ Sent to Jazz, response ID: co_zhbCbDkHaYwwiwRC6SbaD78KeD2
+2025-08-01T21:48:48: 
+2025-08-01T21:48:48: 📥 Received proxy update at 21:48:48
+2025-08-01T21:48:48:    Extension ID: pfmpjnglponhnamjakafmneiblfjdlen
+2025-08-01T21:48:48:    Servers: automatic, hideme, netherlands, switzerland, usa
+2025-08-01T21:48:49: ✅ Sent to Jazz, response ID: co_zoVRCYDLzbxZ8VBUdi5iaCeSbay
+2025-08-01T21:50:00: 
+2025-08-01T21:50:00: 📥 Received proxy update at 21:50:00
+2025-08-01T21:50:00:    Extension ID: test-extension-id
+2025-08-01T21:50:00:    Servers: usa, netherlands
+2025-08-01T21:50:01: ✅ Sent to Jazz, response ID: co_zgTxUMkbFhoAWVhaoFShyuKZrWU
+2025-08-01T21:58:48: 
+2025-08-01T21:58:48: 📥 Received proxy update at 21:58:48
+2025-08-01T21:58:48:    Extension ID: pfmpjnglponhnamjakafmneiblfjdlen
+2025-08-01T21:58:48:    Servers: automatic, hideme, netherlands, switzerland, usa
+2025-08-01T21:58:49: ✅ Sent to Jazz, response ID: co_zZDcQygVTEStPx2FuzcMJprDn5y
+2025-08-01T21:59:51: 
+2025-08-01T21:59:51: 👋 Shutting down gracefully...
+2025-08-01T21:59:54: 
+2025-08-01T21:59:54: 🚀 Proxy webhook server running on http://localhost:3000
+2025-08-01T21:59:54: 📝 Endpoints:
+2025-08-01T21:59:54:    POST /proxy-update - Receive proxy updates
+2025-08-01T21:59:54:    GET  /status       - Server status
+2025-08-01T21:59:54:    GET  /proxy-data   - List saved proxy data
+2025-08-01T21:59:54: 🎷 Initializing Jazz...
+2025-08-01T21:59:56: ✅ Jazz initialized successfully
+2025-08-01T22:01:44: 
+2025-08-01T22:01:44: 👋 Shutting down gracefully...
+2025-08-01T22:01:47: 
+2025-08-01T22:01:47: 🚀 Proxy webhook server running on http://localhost:3000
+2025-08-01T22:01:47: 📝 Endpoints:
+2025-08-01T22:01:47:    POST /proxy-update - Receive proxy updates
+2025-08-01T22:01:47:    GET  /status       - Server status
+2025-08-01T22:01:47:    GET  /proxy-data   - List saved proxy data
+2025-08-01T22:01:47: 🎷 Initializing Jazz...
+2025-08-01T22:01:48: ✅ Jazz initialized successfully
+2025-08-01T22:02:59: 
+2025-08-01T22:02:59: 👋 Shutting down gracefully...
+2025-08-01T22:03:01: 
+2025-08-01T22:03:01: 🚀 Proxy webhook server running on http://localhost:3000
+2025-08-01T22:03:01: 📝 Endpoints:
+2025-08-01T22:03:01:    POST /proxy-update - Receive proxy updates
+2025-08-01T22:03:01:    GET  /status       - Server status
+2025-08-01T22:03:01:    GET  /proxy-data   - List saved proxy data
+2025-08-01T22:03:01: 🎷 Initializing Jazz...
+2025-08-01T22:03:03: ✅ Jazz initialized successfully
+2025-08-01T22:08:17: 
+2025-08-01T22:08:17: 📥 Received proxy update at 22:08:17
+2025-08-01T22:08:17:    Extension ID: test-extension-id
+2025-08-01T22:08:17:    Servers: usa, netherlands
+2025-08-01T22:08:19: ✅ Sent to Jazz, response ID: co_zTAVzipRvWj1TtEXF9WkcboCXzV
+2025-08-01T22:08:47: 
+2025-08-01T22:08:47: 📥 Received proxy update at 22:08:47
+2025-08-01T22:08:47:    Extension ID: pfmpjnglponhnamjakafmneiblfjdlen
+2025-08-01T22:08:47:    Servers: automatic, hideme, netherlands, switzerland, usa
+2025-08-01T22:08:49: ✅ Sent to Jazz, response ID: co_zLwuhgXuxf8gnd8VERnpim5qV58
+2025-08-01T22:18:47: 
+2025-08-01T22:18:47: 📥 Received proxy update at 22:18:47
+2025-08-01T22:18:47:    Extension ID: pfmpjnglponhnamjakafmneiblfjdlen
+2025-08-01T22:18:47:    Servers: automatic, hideme, netherlands, switzerland, usa
+2025-08-01T22:18:49: ✅ Sent to Jazz, response ID: co_zCJjVULpcaGDH8wStx1xWe2Y4s6
+2025-08-01T22:28:47: 
+2025-08-01T22:28:47: 📥 Received proxy update at 22:28:47
+2025-08-01T22:28:47:    Extension ID: pfmpjnglponhnamjakafmneiblfjdlen
+2025-08-01T22:28:47:    Servers: automatic, hideme, netherlands, switzerland, usa
+2025-08-01T22:28:48: 
+2025-08-01T22:28:48: 📥 Received proxy update at 22:28:48
+2025-08-01T22:28:48:    Extension ID: pfmpjnglponhnamjakafmneiblfjdlen
+2025-08-01T22:28:48:    Servers: automatic, hideme, netherlands, switzerland, usa
+2025-08-01T22:28:48: 
+2025-08-01T22:28:48: 📥 Received proxy update at 22:28:48
+2025-08-01T22:28:48:    Extension ID: pfmpjnglponhnamjakafmneiblfjdlen
+2025-08-01T22:28:48:    Servers: automatic, hideme, netherlands, switzerland, usa
+2025-08-01T22:28:48: 
+2025-08-01T22:28:48: 📥 Received proxy update at 22:28:48
+2025-08-01T22:28:48:    Extension ID: pfmpjnglponhnamjakafmneiblfjdlen
+2025-08-01T22:28:48:    Servers: automatic, hideme, netherlands, switzerland, usa
+2025-08-01T22:28:49: ✅ Sent to Jazz, response ID: co_z4aucFW5eDLrcbLmePpC23JLF2n
+2025-08-01T22:28:49: ✅ Sent to Jazz, response ID: co_zSpciwm8vrT1zyyWgYLRHYWSAqZ
+2025-08-01T22:28:49: ✅ Sent to Jazz, response ID: co_znFzkZnFhCXGMGv7L2nymehi1eB
+2025-08-01T22:28:50: ✅ Sent to Jazz, response ID: co_zjGLVi79PUn8eJk3hjfKwddKNC1
+2025-08-01T22:38:48: 
+2025-08-01T22:38:48: 📥 Received proxy update at 22:38:48
+2025-08-01T22:38:48:    Extension ID: pfmpjnglponhnamjakafmneiblfjdlen
+2025-08-01T22:38:48:    Servers: automatic, hideme, netherlands, switzerland, usa
+2025-08-01T22:38:49: ✅ Sent to Jazz, response ID: co_z6xfF6Dn5Hu8SDNqwoAK77CPobh
+2025-08-01T22:48:48: 
+2025-08-01T22:48:48: 📥 Received proxy update at 22:48:48
+2025-08-01T22:48:48:    Extension ID: pfmpjnglponhnamjakafmneiblfjdlen
+2025-08-01T22:48:48:    Servers: automatic, hideme, netherlands, switzerland, usa
+2025-08-01T22:48:49: ✅ Sent to Jazz, response ID: co_zezNp7HCFC4CH4qGm1XsjJYW61m
+2025-08-01T22:58:47: 
+2025-08-01T22:58:47: 📥 Received proxy update at 22:58:47
+2025-08-01T22:58:47:    Extension ID: pfmpjnglponhnamjakafmneiblfjdlen
+2025-08-01T22:58:47:    Servers: automatic, hideme, netherlands, switzerland, usa
+2025-08-01T22:58:48: ✅ Sent to Jazz, response ID: co_z5aQ6aCgLCg5bcqPGkZwtcWbeF4
+2025-08-01T22:58:48: 
+2025-08-01T22:58:48: 📥 Received proxy update at 22:58:48
+2025-08-01T22:58:48:    Extension ID: pfmpjnglponhnamjakafmneiblfjdlen
+2025-08-01T22:58:48:    Servers: automatic, hideme
+2025-08-01T22:58:49: 
+2025-08-01T22:58:49: 📥 Received proxy update at 22:58:49
+2025-08-01T22:58:49:    Extension ID: pfmpjnglponhnamjakafmneiblfjdlen
+2025-08-01T22:58:49:    Servers: automatic, hideme, netherlands, switzerland, usa
+2025-08-01T22:58:50: ✅ Sent to Jazz, response ID: co_zACe2Sg6G6HMib28myoZD5c5guJ
+2025-08-01T22:58:50: 
+2025-08-01T22:58:50: 📥 Received proxy update at 22:58:50
+2025-08-01T22:58:50:    Extension ID: pfmpjnglponhnamjakafmneiblfjdlen
+2025-08-01T22:58:50:    Servers: automatic, hideme, netherlands, switzerland, usa
+2025-08-01T22:58:50: ✅ Sent to Jazz, response ID: co_zHJo6GZ1cYL47XLHA8qfLLhLTEP
+2025-08-01T22:58:51: ✅ Sent to Jazz, response ID: co_zkPR1p6pZPhDxqE9btnoRZo3RRs
+2025-08-01T23:08:47: 
+2025-08-01T23:08:47: 📥 Received proxy update at 23:08:47
+2025-08-01T23:08:47:    Extension ID: pfmpjnglponhnamjakafmneiblfjdlen
+2025-08-01T23:08:47:    Servers: automatic, hideme, netherlands, switzerland, usa
+2025-08-01T23:08:49: ✅ Sent to Jazz, response ID: co_z3yaKJUjPFjtwAoY2c1acWmewCc
+2025-08-01T23:18:47: 
+2025-08-01T23:18:47: 📥 Received proxy update at 23:18:47
+2025-08-01T23:18:47:    Extension ID: pfmpjnglponhnamjakafmneiblfjdlen
+2025-08-01T23:18:47:    Servers: automatic, hideme, netherlands, switzerland, usa
+2025-08-01T23:18:49: ✅ Sent to Jazz, response ID: co_zeQAPn2EXcVmL24j69wxFKdwKD4
+2025-08-02T09:28:48: 
+2025-08-02T09:28:48: 📥 Received proxy update at 09:28:48
+2025-08-02T09:28:48:    Extension ID: pfmpjnglponhnamjakafmneiblfjdlen
+2025-08-02T09:28:48:    Servers: automatic, hideme, netherlands, switzerland, usa
+2025-08-02T09:28:48: 
+2025-08-02T09:28:48: 📥 Received proxy update at 09:28:48
+2025-08-02T09:28:48:    Extension ID: pfmpjnglponhnamjakafmneiblfjdlen
+2025-08-02T09:28:48:    Servers: automatic, hideme, netherlands, switzerland, usa
+2025-08-02T09:38:48: 
+2025-08-02T09:38:48: 📥 Received proxy update at 09:38:48
+2025-08-02T09:38:48:    Extension ID: pfmpjnglponhnamjakafmneiblfjdlen
+2025-08-02T09:38:48:    Servers: automatic, hideme, netherlands, switzerland, usa
+2025-08-02T09:48:47: 
+2025-08-02T09:48:47: 📥 Received proxy update at 09:48:47
+2025-08-02T09:48:47:    Extension ID: pfmpjnglponhnamjakafmneiblfjdlen
+2025-08-02T09:48:47:    Servers: automatic, hideme, netherlands, switzerland, usa
+2025-08-02T09:58:48: 
+2025-08-02T09:58:48: 📥 Received proxy update at 09:58:48
+2025-08-02T09:58:48:    Extension ID: pfmpjnglponhnamjakafmneiblfjdlen
+2025-08-02T09:58:48:    Servers: automatic, hideme, netherlands, switzerland, usa
+2025-08-02T10:08:48: 
+2025-08-02T10:08:48: 📥 Received proxy update at 10:08:48
+2025-08-02T10:08:48:    Extension ID: pfmpjnglponhnamjakafmneiblfjdlen
+2025-08-02T10:08:48:    Servers: automatic, hideme, netherlands, switzerland, usa
+2025-08-02T10:18:47: 
+2025-08-02T10:18:47: 📥 Received proxy update at 10:18:47
+2025-08-02T10:18:47:    Extension ID: pfmpjnglponhnamjakafmneiblfjdlen
+2025-08-02T10:18:47:    Servers: automatic, hideme, netherlands, switzerland, usa
+2025-08-02T10:28:48: 
+2025-08-02T10:28:48: 📥 Received proxy update at 10:28:48
+2025-08-02T10:28:48:    Extension ID: pfmpjnglponhnamjakafmneiblfjdlen
+2025-08-02T10:28:48:    Servers: automatic, hideme, netherlands, switzerland, usa
+2025-08-02T10:30:41: 
+2025-08-02T10:30:41: 👋 Shutting down gracefully...
+2025-08-02T10:30:45: 
+2025-08-02T10:30:45: 🚀 Proxy webhook server running on http://localhost:3000
+2025-08-02T10:30:45: 📝 Endpoints:
+2025-08-02T10:30:45:    POST /proxy-update - Receive proxy updates
+2025-08-02T10:30:45:    GET  /status       - Server status
+2025-08-02T10:30:45:    GET  /proxy-data   - List saved proxy data
+2025-08-02T10:30:45: 🎷 Initializing Jazz...
+2025-08-02T10:32:26: 
+2025-08-02T10:32:26: 👋 Shutting down gracefully...
+2025-08-02T10:32:29: 
+2025-08-02T10:32:29: 🚀 Proxy webhook server running on http://localhost:3000
+2025-08-02T10:32:29: 📝 Endpoints:
+2025-08-02T10:32:29:    POST /proxy-update - Receive proxy updates
+2025-08-02T10:32:29:    GET  /status       - Server status
+2025-08-02T10:32:29:    GET  /proxy-data   - List saved proxy data
+2025-08-02T10:32:29: 🎷 Initializing Jazz...
+2025-08-02T10:32:30: ✅ Jazz initialized successfully
+2025-08-02T10:35:20: 
+2025-08-02T10:35:20: 👋 Shutting down gracefully...
+2025-08-02T10:35:24: 
+2025-08-02T10:35:24: 🚀 Proxy webhook server running on http://localhost:3000
+2025-08-02T10:35:24: 📝 Endpoints:
+2025-08-02T10:35:24:    POST /proxy-update - Receive proxy updates
+2025-08-02T10:35:24:    GET  /status       - Server status
+2025-08-02T10:35:24:    GET  /proxy-data   - List saved proxy data
+2025-08-02T10:35:24: 🎷 Initializing Jazz...
+2025-08-02T10:35:26: ✅ Jazz initialized successfully
+2025-08-02T10:35:38: 
+2025-08-02T10:35:38: 📥 Received proxy update at 10:35:38
+2025-08-02T10:35:38:    Extension ID: pfmpjnglponhnamjakafmneiblfjdlen
+2025-08-02T10:35:38:    Servers: automatic, hideme, netherlands, switzerland, usa
+2025-08-02T10:35:39: 
+2025-08-02T10:35:39: 📥 Received proxy update at 10:35:39
+2025-08-02T10:35:39:    Extension ID: pfmpjnglponhnamjakafmneiblfjdlen
+2025-08-02T10:35:39:    Servers: automatic, hideme, netherlands, switzerland, usa
+2025-08-02T10:35:39: 
+2025-08-02T10:35:39: 📥 Received proxy update at 10:35:39
+2025-08-02T10:35:39:    Extension ID: pfmpjnglponhnamjakafmneiblfjdlen
+2025-08-02T10:35:39:    Servers: automatic, hideme, netherlands, switzerland, usa
+2025-08-02T10:35:40: ✅ Sent to Jazz, response ID: co_zktEAmU8N6uHspcuzzSh3SU8L9C
+2025-08-02T10:35:41: ✅ Sent to Jazz, response ID: co_zfD7R1beY6ZvVktG27mZx7WHm7X
+2025-08-02T10:35:41: ✅ Sent to Jazz, response ID: co_zi2gnPjfnE4ZQ7hnbFg3rwbzvwT
+2025-08-02T10:35:52: 
+2025-08-02T10:35:52: 📥 Received proxy update at 10:35:52
+2025-08-02T10:35:52:    Extension ID: pfmpjnglponhnamjakafmneiblfjdlen
+2025-08-02T10:35:52:    Servers: automatic, hideme, netherlands, switzerland, usa
+2025-08-02T10:35:52: 
+2025-08-02T10:35:52: 📥 Received proxy update at 10:35:52
+2025-08-02T10:35:52:    Extension ID: pfmpjnglponhnamjakafmneiblfjdlen
+2025-08-02T10:35:52:    Servers: automatic, hideme
+2025-08-02T10:35:53: 
+2025-08-02T10:35:53: 📥 Received proxy update at 10:35:53
+2025-08-02T10:35:53:    Extension ID: pfmpjnglponhnamjakafmneiblfjdlen
+2025-08-02T10:35:53:    Servers: automatic, hideme, netherlands, switzerland, usa
+2025-08-02T10:35:54: ✅ Sent to Jazz, response ID: co_zjHM2oc1HcWUTfDyziES1xnX5bk
+2025-08-02T10:35:54: ✅ Sent to Jazz, response ID: co_zNUHajrTG659LeivAKd3KnUdvdG
+2025-08-02T10:35:54: ✅ Sent to Jazz, response ID: co_z3ypNNMUjXgGWhN1CDQsyC8ctNd
+2025-08-02T10:37:53: 
+2025-08-02T10:37:53: 📥 Received proxy update at 10:37:53
+2025-08-02T10:37:53:    Extension ID: pfmpjnglponhnamjakafmneiblfjdlen
+2025-08-02T10:37:53:    Servers: automatic, hideme, netherlands, switzerland, usa
+2025-08-02T10:37:53: 
+2025-08-02T10:37:53: 📥 Received proxy update at 10:37:53
+2025-08-02T10:37:53:    Extension ID: pfmpjnglponhnamjakafmneiblfjdlen
+2025-08-02T10:37:53:    Servers: automatic, hideme
+2025-08-02T10:37:54: 
+2025-08-02T10:37:54: 📥 Received proxy update at 10:37:54
+2025-08-02T10:37:54:    Extension ID: pfmpjnglponhnamjakafmneiblfjdlen
+2025-08-02T10:37:54:    Servers: automatic, hideme, netherlands, switzerland, usa
+2025-08-02T10:37:55: ✅ Sent to Jazz, response ID: co_z2srtad1sRJacB1KyoQCYxEmPvg
+2025-08-02T10:37:55: ✅ Sent to Jazz, response ID: co_zZDTAMy2TmhBAvcvFT71WvYNMXx
+2025-08-02T10:37:55: ✅ Sent to Jazz, response ID: co_zSVDtprDSkA2Dhd6mzMamNQ7MdZ
+2025-08-02T10:39:01: 
+2025-08-02T10:39:01: 📥 Received proxy update at 10:39:01
+2025-08-02T10:39:01:    Extension ID: pfmpjnglponhnamjakafmneiblfjdlen
+2025-08-02T10:39:01:    Servers: automatic, hideme, netherlands, switzerland, usa
+2025-08-02T10:39:01: 
+2025-08-02T10:39:01: 📥 Received proxy update at 10:39:01
+2025-08-02T10:39:01:    Extension ID: pfmpjnglponhnamjakafmneiblfjdlen
+2025-08-02T10:39:01:    Servers: automatic, hideme
+2025-08-02T10:39:01: 
+2025-08-02T10:39:01: 📥 Received proxy update at 10:39:01
+2025-08-02T10:39:01:    Extension ID: pfmpjnglponhnamjakafmneiblfjdlen
+2025-08-02T10:39:01:    Servers: automatic, hideme, netherlands, switzerland, usa
+2025-08-02T10:39:02: ✅ Sent to Jazz, response ID: co_z488Bc9J192zCqqeLvdYUfgLWmA
+2025-08-02T10:39:02: ✅ Sent to Jazz, response ID: co_zhcBJxh55ftAQip2zgNsTRiogwW
+2025-08-02T10:39:02: ✅ Sent to Jazz, response ID: co_zNwfcNEwdbCP6hcQ6wMGpGp6jr
+2025-08-02T10:41:14: 
+2025-08-02T10:41:14: 📥 Received proxy update at 10:41:14
+2025-08-02T10:41:14:    Extension ID: pfmpjnglponhnamjakafmneiblfjdlen
+2025-08-02T10:41:14:    Servers: automatic, hideme, netherlands, switzerland, usa
+2025-08-02T10:41:14: 
+2025-08-02T10:41:14: 📥 Received proxy update at 10:41:14
+2025-08-02T10:41:14:    Extension ID: pfmpjnglponhnamjakafmneiblfjdlen
+2025-08-02T10:41:14:    Servers: automatic, hideme, netherlands, switzerland, usa
+2025-08-02T10:41:15: ✅ Sent to Jazz, response ID: co_zWCYsc5GpHaVyCGCfUfQbaVmYiZ
+2025-08-02T10:41:16: ✅ Sent to Jazz, response ID: co_zHCi3RLg4KDnoR4jjB18z5HeXZf
+2025-08-02T10:45:41: 
+2025-08-02T10:45:41: 📥 Received proxy update at 10:45:41
+2025-08-02T10:45:41:    Extension ID: pfmpjnglponhnamjakafmneiblfjdlen
+2025-08-02T10:45:41:    Servers: automatic, hideme, netherlands, switzerland, usa
+2025-08-02T10:45:41: 
+2025-08-02T10:45:41: 📥 Received proxy update at 10:45:41
+2025-08-02T10:45:41:    Extension ID: pfmpjnglponhnamjakafmneiblfjdlen
+2025-08-02T10:45:41:    Servers: automatic, hideme, netherlands, switzerland, usa
+2025-08-02T10:45:41: 
+2025-08-02T10:45:41: 📥 Received proxy update at 10:45:41
+2025-08-02T10:45:41:    Extension ID: pfmpjnglponhnamjakafmneiblfjdlen
+2025-08-02T10:45:41:    Servers: automatic, hideme, netherlands, switzerland, usa
+2025-08-02T10:45:42: ✅ Sent to Jazz, response ID: co_zeD35uwckuq5HmfzZVxtdufX1rP
+2025-08-02T10:45:43: ✅ Sent to Jazz, response ID: co_zG4FKTMQ4b41aA4hxaXDzhew7rT
+2025-08-02T10:45:43: ✅ Sent to Jazz, response ID: co_zabxEE8koytBQf3iXBzGaN32Wr8
+2025-08-02T10:45:53: 
+2025-08-02T10:45:53: 📥 Received proxy update at 10:45:53
+2025-08-02T10:45:53:    Extension ID: pfmpjnglponhnamjakafmneiblfjdlen
+2025-08-02T10:45:53:    Servers: automatic, hideme, netherlands, switzerland, usa
+2025-08-02T10:45:54: ✅ Sent to Jazz, response ID: co_zZU15NfqNroBkdnYZc43UWnp7u
+2025-08-02T10:47:58: 
+2025-08-02T10:47:58: 📥 Received proxy update at 10:47:58
+2025-08-02T10:47:58:    Extension ID: pfmpjnglponhnamjakafmneiblfjdlen
+2025-08-02T10:47:58:    Servers: automatic, hideme, netherlands, switzerland, usa
+2025-08-02T10:47:58: 
+2025-08-02T10:47:58: 📥 Received proxy update at 10:47:58
+2025-08-02T10:47:58:    Extension ID: pfmpjnglponhnamjakafmneiblfjdlen
+2025-08-02T10:47:58:    Servers: automatic, hideme
+2025-08-02T10:47:59: 
+2025-08-02T10:47:59: 📥 Received proxy update at 10:47:59
+2025-08-02T10:47:59:    Extension ID: pfmpjnglponhnamjakafmneiblfjdlen
+2025-08-02T10:47:59:    Servers: automatic, hideme, netherlands, switzerland, usa
+2025-08-02T10:48:00: ✅ Sent to Jazz, response ID: co_zda6i6nS5Zaz1igosaCQ6VKSW7R
+2025-08-02T10:48:00: ✅ Sent to Jazz, response ID: co_znnz6iixBSLRcmgxzHiJtRMEvWo
+2025-08-02T10:48:01: ✅ Sent to Jazz, response ID: co_zjjGqjbmWgy6mXvAiBmfaNgzeQP
+2025-08-02T10:48:59: 
+2025-08-02T10:48:59: 📥 Received proxy update at 10:48:59
+2025-08-02T10:48:59:    Extension ID: pfmpjnglponhnamjakafmneiblfjdlen
+2025-08-02T10:48:59:    Servers: automatic, hideme, netherlands, switzerland, usa
+2025-08-02T10:48:59: 
+2025-08-02T10:48:59: 📥 Received proxy update at 10:48:59
+2025-08-02T10:48:59:    Extension ID: pfmpjnglponhnamjakafmneiblfjdlen
+2025-08-02T10:48:59:    Servers: automatic, hideme
+2025-08-02T10:49:00: 
+2025-08-02T10:49:00: 📥 Received proxy update at 10:49:00
+2025-08-02T10:49:00:    Extension ID: pfmpjnglponhnamjakafmneiblfjdlen
+2025-08-02T10:49:00:    Servers: automatic, hideme, netherlands, switzerland, usa
+2025-08-02T10:49:01: ✅ Sent to Jazz, response ID: co_zcFJH4GaGAerFpTFEnAB4172EEa
+2025-08-02T10:49:01: ✅ Sent to Jazz, response ID: co_zC4QP2vu1rvYsgys9dG23pGg4si
+2025-08-02T10:49:01: ✅ Sent to Jazz, response ID: co_zgq8sFYxXHtCc4i4npgkDPrGfj3
+2025-08-02T10:50:31: 
+2025-08-02T10:50:31: 📥 Received proxy update at 10:50:31
+2025-08-02T10:50:31:    Extension ID: pfmpjnglponhnamjakafmneiblfjdlen
+2025-08-02T10:50:31:    Servers: automatic, hideme, netherlands, switzerland, usa
+2025-08-02T10:50:31: 
+2025-08-02T10:50:31: 📥 Received proxy update at 10:50:31
+2025-08-02T10:50:31:    Extension ID: pfmpjnglponhnamjakafmneiblfjdlen
+2025-08-02T10:50:31:    Servers: automatic, hideme
+2025-08-02T10:50:32: 
+2025-08-02T10:50:32: 📥 Received proxy update at 10:50:32
+2025-08-02T10:50:32:    Extension ID: pfmpjnglponhnamjakafmneiblfjdlen
+2025-08-02T10:50:32:    Servers: automatic, hideme, netherlands, switzerland, usa
+2025-08-02T10:50:34: ✅ Sent to Jazz, response ID: co_zN5ad83nVffkbEd7ZcN6oZXULyw
+2025-08-02T10:50:34: ✅ Sent to Jazz, response ID: co_zXJt4oc3F3FQf6ThtgkK8DKNJ6N
+2025-08-02T10:50:34: ✅ Sent to Jazz, response ID: co_zESmsP2uUk4crVkMk4quvJbpiXk
+2025-08-02T10:51:16: 
+2025-08-02T10:51:16: 📥 Received proxy update at 10:51:16
+2025-08-02T10:51:16:    Extension ID: pfmpjnglponhnamjakafmneiblfjdlen
+2025-08-02T10:51:16:    Servers: automatic, hideme, netherlands, switzerland, usa
+2025-08-02T10:51:17: 
+2025-08-02T10:51:17: 📥 Received proxy update at 10:51:17
+2025-08-02T10:51:17:    Extension ID: pfmpjnglponhnamjakafmneiblfjdlen
+2025-08-02T10:51:17:    Servers: automatic, hideme, netherlands, switzerland, usa
+2025-08-02T10:51:17: 
+2025-08-02T10:51:17: 📥 Received proxy update at 10:51:17
+2025-08-02T10:51:17:    Extension ID: pfmpjnglponhnamjakafmneiblfjdlen
+2025-08-02T10:51:17:    Servers: automatic, hideme, netherlands, switzerland, usa
+2025-08-02T10:51:18: ✅ Sent to Jazz, response ID: co_zMhJJSa4c5wVUjVshBsru4xfCnS
+2025-08-02T10:51:18: ✅ Sent to Jazz, response ID: co_zkmcpNjfdM7QbY2oVavAoqhKyfR
+2025-08-02T10:51:18: ✅ Sent to Jazz, response ID: co_zJbVgzV7gbf6KgVWxiwTMGCfLgZ
+2025-08-02T10:52:44: 
+2025-08-02T10:52:44: 📥 Received proxy update at 10:52:44
+2025-08-02T10:52:44:    Extension ID: pfmpjnglponhnamjakafmneiblfjdlen
+2025-08-02T10:52:44:    Servers: automatic, hideme, netherlands, switzerland, usa
+2025-08-02T10:52:44: 
+2025-08-02T10:52:44: 📥 Received proxy update at 10:52:44
+2025-08-02T10:52:44:    Extension ID: pfmpjnglponhnamjakafmneiblfjdlen
+2025-08-02T10:52:44:    Servers: automatic, hideme
+2025-08-02T10:52:45: 
+2025-08-02T10:52:45: 📥 Received proxy update at 10:52:45
+2025-08-02T10:52:45:    Extension ID: pfmpjnglponhnamjakafmneiblfjdlen
+2025-08-02T10:52:45:    Servers: automatic, hideme, netherlands, switzerland, usa
+2025-08-02T10:52:46: ✅ Sent to Jazz, response ID: co_zdiXxSbmbKzmKwf6Jx9wLvNzyu4
+2025-08-02T10:52:46: ✅ Sent to Jazz, response ID: co_zZnmNvHR9xwd44ejYriYEypTYnB
+2025-08-02T10:52:46: ✅ Sent to Jazz, response ID: co_zAXVZnVLC5tY1bW6JfvjYMz4TSk
+2025-08-02T10:54:45: 
+2025-08-02T10:54:45: 📥 Received proxy update at 10:54:45
+2025-08-02T10:54:45:    Extension ID: pfmpjnglponhnamjakafmneiblfjdlen
+2025-08-02T10:54:45:    Servers: automatic, hideme, netherlands, switzerland, usa
+2025-08-02T10:54:45: 
+2025-08-02T10:54:45: 📥 Received proxy update at 10:54:45
+2025-08-02T10:54:45:    Extension ID: pfmpjnglponhnamjakafmneiblfjdlen
+2025-08-02T10:54:45:    Servers: automatic, hideme
+2025-08-02T10:54:45: 
+2025-08-02T10:54:45: 📥 Received proxy update at 10:54:45
+2025-08-02T10:54:45:    Extension ID: pfmpjnglponhnamjakafmneiblfjdlen
+2025-08-02T10:54:45:    Servers: automatic, hideme, netherlands, switzerland, usa
+2025-08-02T10:54:46: ✅ Sent to Jazz, response ID: co_zJdHMRCfAbRHqMcFSE36rUsA2G6
+2025-08-02T10:54:46: ✅ Sent to Jazz, response ID: co_z29fH8VHyvUc6FtgmUzsmB6npWE
+2025-08-02T10:54:47: ✅ Sent to Jazz, response ID: co_zBaktcZX4ekZ6JtiaDPj6CYeSLV
+2025-08-02T10:55:52: 
+2025-08-02T10:55:52: 📥 Received proxy update at 10:55:52
+2025-08-02T10:55:52:    Extension ID: pfmpjnglponhnamjakafmneiblfjdlen
+2025-08-02T10:55:52:    Servers: automatic, hideme, netherlands, switzerland, usa
+2025-08-02T10:55:52: 
+2025-08-02T10:55:52: 📥 Received proxy update at 10:55:52
+2025-08-02T10:55:52:    Extension ID: pfmpjnglponhnamjakafmneiblfjdlen
+2025-08-02T10:55:52:    Servers: automatic, hideme
+2025-08-02T10:55:53: 
+2025-08-02T10:55:53: 📥 Received proxy update at 10:55:53
+2025-08-02T10:55:53:    Extension ID: pfmpjnglponhnamjakafmneiblfjdlen
+2025-08-02T10:55:53:    Servers: automatic, hideme, netherlands, switzerland, usa
+2025-08-02T10:55:53: 
+2025-08-02T10:55:53: 📥 Received proxy update at 10:55:53
+2025-08-02T10:55:53:    Extension ID: pfmpjnglponhnamjakafmneiblfjdlen
+2025-08-02T10:55:53:    Servers: automatic, hideme, netherlands, switzerland, usa
+2025-08-02T10:55:54: ✅ Sent to Jazz, response ID: co_zCcF9huyEAikgNpPrtW4YZ1cQVc
+2025-08-02T10:55:54: ✅ Sent to Jazz, response ID: co_zjzxy16op17ftphjvUTgH7gJY3N
+2025-08-02T10:55:54: ✅ Sent to Jazz, response ID: co_zdUCFvStzADdu9PZxwP1X6h5e5F
+2025-08-02T10:55:54: ✅ Sent to Jazz, response ID: co_zQPt1bfsmtBRaex1nyrMpaoUVkJ
+2025-08-02T11:05:52: 
+2025-08-02T11:05:52: 📥 Received proxy update at 11:05:52
+2025-08-02T11:05:52:    Extension ID: pfmpjnglponhnamjakafmneiblfjdlen
+2025-08-02T11:05:52:    Servers: automatic, hideme, netherlands, switzerland, usa
+2025-08-02T11:05:53: 
+2025-08-02T11:05:53: 📥 Received proxy update at 11:05:53
+2025-08-02T11:05:53:    Extension ID: pfmpjnglponhnamjakafmneiblfjdlen
+2025-08-02T11:05:53:    Servers: automatic, hideme, netherlands, switzerland, usa
+2025-08-02T11:05:53: 
+2025-08-02T11:05:53: 📥 Received proxy update at 11:05:53
+2025-08-02T11:05:53:    Extension ID: pfmpjnglponhnamjakafmneiblfjdlen
+2025-08-02T11:05:53:    Servers: automatic, hideme, netherlands, switzerland, usa
+2025-08-02T11:05:53: ✅ Sent to Jazz, response ID: co_za1YptJLsacAeffgUvkngxvYYV7
+2025-08-02T11:05:53: 
+2025-08-02T11:05:53: 📥 Received proxy update at 11:05:53
+2025-08-02T11:05:53:    Extension ID: pfmpjnglponhnamjakafmneiblfjdlen
+2025-08-02T11:05:53:    Servers: automatic, hideme, netherlands, switzerland, usa
+2025-08-02T11:05:54: ✅ Sent to Jazz, response ID: co_zNBxh8WEbjRN7fYqP5VTfzsbNC2
+2025-08-02T11:05:54: ✅ Sent to Jazz, response ID: co_z8PLG56V2ZZFuHkjRhPGit4Lvfs
+2025-08-02T11:05:55: ✅ Sent to Jazz, response ID: co_zHtho7VN7pA9wJ4YVcw4KJVprk2
+2025-08-02T11:12:46: 
+2025-08-02T11:12:46: 📥 Received proxy update at 11:12:46
+2025-08-02T11:12:46:    Extension ID: pfmpjnglponhnamjakafmneiblfjdlen
+2025-08-02T11:12:46:    Servers: automatic, hideme, netherlands, switzerland, usa
+2025-08-02T11:12:47: 
+2025-08-02T11:12:47: 📥 Received proxy update at 11:12:47
+2025-08-02T11:12:47:    Extension ID: pfmpjnglponhnamjakafmneiblfjdlen
+2025-08-02T11:12:47:    Servers: automatic, hideme
+2025-08-02T11:12:47: 
+2025-08-02T11:12:47: 📥 Received proxy update at 11:12:47
+2025-08-02T11:12:47:    Extension ID: pfmpjnglponhnamjakafmneiblfjdlen
+2025-08-02T11:12:47:    Servers: automatic, hideme, netherlands, switzerland, usa
+2025-08-02T11:12:48: ✅ Sent to Jazz, response ID: co_zdkgRgY5hMoD6k9MYFzzs2VsA3X
+2025-08-02T11:12:48: ✅ Sent to Jazz, response ID: co_zFHSvKxn2ddRGnErp3iiEnQH1XQ
+2025-08-02T11:12:48: ✅ Sent to Jazz, response ID: co_z69MgF1GtavKVgqSEEVD2JbBpf8
+2025-08-02T11:15:52: 
+2025-08-02T11:15:52: 📥 Received proxy update at 11:15:52
+2025-08-02T11:15:52:    Extension ID: pfmpjnglponhnamjakafmneiblfjdlen
+2025-08-02T11:15:52:    Servers: automatic, hideme, netherlands, switzerland, usa
+2025-08-02T11:15:52: 
+2025-08-02T11:15:52: 📥 Received proxy update at 11:15:52
+2025-08-02T11:15:52:    Extension ID: pfmpjnglponhnamjakafmneiblfjdlen
+2025-08-02T11:15:52:    Servers: automatic, hideme
+2025-08-02T11:15:53: 
+2025-08-02T11:15:53: 📥 Received proxy update at 11:15:53
+2025-08-02T11:15:53:    Extension ID: pfmpjnglponhnamjakafmneiblfjdlen
+2025-08-02T11:15:53:    Servers: automatic, hideme, netherlands, switzerland, usa
+2025-08-02T11:15:53: 
+2025-08-02T11:15:53: 📥 Received proxy update at 11:15:53
+2025-08-02T11:15:53:    Extension ID: pfmpjnglponhnamjakafmneiblfjdlen
+2025-08-02T11:15:53:    Servers: automatic, hideme, netherlands, switzerland, usa
+2025-08-02T11:15:53: ✅ Sent to Jazz, response ID: co_z97Ctc1pS4kZfPiMU8MHLcjdrv3
+2025-08-02T11:15:54: ✅ Sent to Jazz, response ID: co_zJcoideZwVccxfVYFUYhob21VXT
+2025-08-02T11:15:54: ✅ Sent to Jazz, response ID: co_zoDBwFSDteSCkCCsGG7GrTznzab
+2025-08-02T11:15:54: ✅ Sent to Jazz, response ID: co_zZ7DA8ofcxEx8Por6NiX3u7bCU
+2025-08-02T11:16:58: 
+2025-08-02T11:16:58: 📥 Received proxy update at 11:16:58
+2025-08-02T11:16:58:    Extension ID: pfmpjnglponhnamjakafmneiblfjdlen
+2025-08-02T11:16:58:    Servers: automatic, hideme, netherlands, switzerland, usa
+2025-08-02T11:16:58: 
+2025-08-02T11:16:58: 📥 Received proxy update at 11:16:58
+2025-08-02T11:16:58:    Extension ID: pfmpjnglponhnamjakafmneiblfjdlen
+2025-08-02T11:16:58:    Servers: automatic, hideme
+2025-08-02T11:16:58: 
+2025-08-02T11:16:58: 📥 Received proxy update at 11:16:58
+2025-08-02T11:16:58:    Extension ID: pfmpjnglponhnamjakafmneiblfjdlen
+2025-08-02T11:16:58:    Servers: automatic, hideme, netherlands, switzerland, usa
+2025-08-02T11:16:59: ✅ Sent to Jazz, response ID: co_zZGn2VrD6Zjz3iK8nCJGmcx4GPe
+2025-08-02T11:16:59: ✅ Sent to Jazz, response ID: co_z9Xc12qGscvbYRg3auvA5sX7FqD
+2025-08-02T11:16:59: ✅ Sent to Jazz, response ID: co_zAMD8BYBrcjHLVNfvJYkAvcDJVB
+2025-08-02T11:18:49: 
+2025-08-02T11:18:49: 📥 Received proxy update at 11:18:49
+2025-08-02T11:18:49:    Extension ID: pfmpjnglponhnamjakafmneiblfjdlen
+2025-08-02T11:18:49:    Servers: automatic, hideme, netherlands, switzerland, usa
+2025-08-02T11:18:49: 
+2025-08-02T11:18:49: 📥 Received proxy update at 11:18:49
+2025-08-02T11:18:49:    Extension ID: pfmpjnglponhnamjakafmneiblfjdlen
+2025-08-02T11:18:49:    Servers: automatic, hideme, netherlands, switzerland, usa
+2025-08-02T11:18:50: 
+2025-08-02T11:18:50: 📥 Received proxy update at 11:18:50
+2025-08-02T11:18:50:    Extension ID: pfmpjnglponhnamjakafmneiblfjdlen
+2025-08-02T11:18:50:    Servers: automatic, hideme, netherlands, switzerland, usa
+2025-08-02T11:18:50: ✅ Sent to Jazz, response ID: co_zMFcksuQVGnu4g7KBnXL8G1HcHb
+2025-08-02T11:18:50: ✅ Sent to Jazz, response ID: co_z3phvYaxcBakL3ZVz8TXrGzdJQC
+2025-08-02T11:18:51: ✅ Sent to Jazz, response ID: co_zBep3NvdSjaoyk1SHCvShwBuZHw
+2025-08-02T11:25:52: 
+2025-08-02T11:25:52: 📥 Received proxy update at 11:25:52
+2025-08-02T11:25:52:    Extension ID: pfmpjnglponhnamjakafmneiblfjdlen
+2025-08-02T11:25:52:    Servers: automatic, hideme, netherlands, switzerland, usa
+2025-08-02T11:25:53: 
+2025-08-02T11:25:53: 📥 Received proxy update at 11:25:53
+2025-08-02T11:25:53:    Extension ID: pfmpjnglponhnamjakafmneiblfjdlen
+2025-08-02T11:25:53:    Servers: automatic, hideme, netherlands, switzerland, usa
+2025-08-02T11:25:53: 
+2025-08-02T11:25:53: 📥 Received proxy update at 11:25:53
+2025-08-02T11:25:53:    Extension ID: pfmpjnglponhnamjakafmneiblfjdlen
+2025-08-02T11:25:53:    Servers: automatic, hideme, netherlands, switzerland, usa
+2025-08-02T11:25:53: 
+2025-08-02T11:25:53: 📥 Received proxy update at 11:25:53
+2025-08-02T11:25:53:    Extension ID: pfmpjnglponhnamjakafmneiblfjdlen
+2025-08-02T11:25:53:    Servers: automatic, hideme, netherlands, switzerland, usa
+2025-08-02T11:35:52: 
+2025-08-02T11:35:52: 📥 Received proxy update at 11:35:52
+2025-08-02T11:35:52:    Extension ID: pfmpjnglponhnamjakafmneiblfjdlen
+2025-08-02T11:35:52:    Servers: automatic, hideme, netherlands, switzerland, usa
+2025-08-02T11:35:53: 
+2025-08-02T11:35:53: 📥 Received proxy update at 11:35:53
+2025-08-02T11:35:53:    Extension ID: pfmpjnglponhnamjakafmneiblfjdlen
+2025-08-02T11:35:53:    Servers: automatic, hideme, netherlands, switzerland, usa
+2025-08-02T11:35:53: 
+2025-08-02T11:35:53: 📥 Received proxy update at 11:35:53
+2025-08-02T11:35:53:    Extension ID: pfmpjnglponhnamjakafmneiblfjdlen
+2025-08-02T11:35:53:    Servers: automatic, hideme, netherlands, switzerland, usa
+2025-08-02T11:35:53: 
+2025-08-02T11:35:53: 📥 Received proxy update at 11:35:53
+2025-08-02T11:35:53:    Extension ID: pfmpjnglponhnamjakafmneiblfjdlen
+2025-08-02T11:35:53:    Servers: automatic, hideme, netherlands, switzerland, usa
